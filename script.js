@@ -17,8 +17,11 @@ const categoryButtons = document.querySelectorAll('.category-btn');
 // Store the currently selected category
 let currentCategory = '';
 
-// Array to store IDs of quotes we've already shown (prevents repeats)
-let shownQuoteIds = [];
+// Array to store quotes we've already shown (prevents repeats)
+let shownQuotes = [];
+
+// Store all fetched quotes for the current category
+let categoryQuotes = [];
 
 // ============================================
 // LOCAL STORAGE FUNCTIONS (For offline caching)
@@ -33,11 +36,8 @@ function saveQuotesToCache(category, quotes) {
         // Get existing cached quotes or create empty object
         const cached = JSON.parse(localStorage.getItem('cachedQuotes') || '{}');
         
-        // Add new quotes to the cache for this category
-        if (!cached[category]) {
-            cached[category] = [];
-        }
-        cached[category] = [...cached[category], ...quotes];
+        // Save quotes for this category
+        cached[category] = quotes;
         
         // Save back to localStorage as a JSON string
         localStorage.setItem('cachedQuotes', JSON.stringify(cached));
@@ -60,25 +60,25 @@ function getCachedQuotes(category) {
 }
 
 /**
- * Save the list of shown quote IDs so we don't repeat them
+ * Save the list of shown quotes so we don't repeat them
  */
 function saveShownQuotes() {
     try {
-        localStorage.setItem('shownQuotes_' + currentCategory, JSON.stringify(shownQuoteIds));
+        localStorage.setItem('shownQuotes_' + currentCategory, JSON.stringify(shownQuotes));
     } catch (error) {
         console.log('Could not save shown quotes:', error);
     }
 }
 
 /**
- * Load the list of previously shown quote IDs
+ * Load the list of previously shown quotes
  */
 function loadShownQuotes() {
     try {
         const shown = localStorage.getItem('shownQuotes_' + currentCategory);
-        shownQuoteIds = shown ? JSON.parse(shown) : [];
+        shownQuotes = shown ? JSON.parse(shown) : [];
     } catch (error) {
-        shownQuoteIds = [];
+        shownQuotes = [];
     }
 }
 
@@ -87,50 +87,54 @@ function loadShownQuotes() {
 // ============================================
 
 /**
- * Fetch a random quote from the quotable.io API
- * The API provides free access to thousands of quotes
+ * Fetch random quotes from ZenQuotes API
+ * ZenQuotes provides 50 quotes per request and is completely free
  */
-async function fetchQuote(category) {
+async function fetchQuotes(category) {
     try {
         // Show loading message
-        quoteText.textContent = 'Loading inspiring quote...';
+        quoteText.textContent = 'Loading inspiring quotes...';
         quoteAuthor.textContent = '';
         statusMessage.textContent = '';
         
-        // Build the API URL with optional tag parameter
-        // Tags help filter quotes by category
-        let apiUrl = 'https://api.quotable.io/random';
-        if (category) {
-            apiUrl += `?tags=${category}`;
-        }
+        // ZenQuotes API endpoint - returns 50 quotes at once
+        // No API key needed! Completely free
+        const apiUrl = 'https://zenquotes.io/api/quotes';
         
         // Make the API request
         const response = await fetch(apiUrl);
         
         // Check if request was successful
         if (!response.ok) {
-            throw new Error('Failed to fetch quote');
+            throw new Error('Failed to fetch quotes');
         }
         
         // Convert response to JSON format
         const data = await response.json();
         
-        // Check if we've already shown this quote
-        if (shownQuoteIds.includes(data._id)) {
-            // If yes, try to fetch another one
-            // Recursive call - calls itself to get a new quote
-            return fetchQuote(category);
+        // Filter quotes by category if not "all"
+        if (category !== 'all') {
+            // Simple keyword matching for categories
+            categoryQuotes = data.filter(quote => {
+                const text = (quote.q + ' ' + quote.a).toLowerCase();
+                return text.includes(category.toLowerCase()) || 
+                       matchesCategory(quote.q, category);
+            });
+            
+            // If no matches found, use all quotes
+            if (categoryQuotes.length === 0) {
+                categoryQuotes = data;
+                statusMessage.textContent = '💫 Showing all quotes (no exact category match)';
+            }
+        } else {
+            categoryQuotes = data;
         }
         
-        // Add this quote ID to our "shown" list
-        shownQuoteIds.push(data._id);
-        saveShownQuotes();
+        // Cache the quotes for offline use
+        saveQuotesToCache(category, categoryQuotes);
         
-        // Cache this quote for offline use
-        saveQuotesToCache(category, [data]);
-        
-        // Display the quote
-        displayQuote(data);
+        // Display a random quote
+        showRandomQuote();
         
     } catch (error) {
         // If fetching fails, try to use cached quotes
@@ -140,33 +144,86 @@ async function fetchQuote(category) {
 }
 
 /**
+ * Helper function to match quotes with categories
+ * Returns true if the quote relates to the category
+ */
+function matchesCategory(quoteText, category) {
+    const keywords = {
+        'inspirational': ['inspire', 'dream', 'believe', 'achieve', 'hope', 'faith'],
+        'life': ['life', 'live', 'living', 'existence', 'journey'],
+        'success': ['success', 'win', 'achieve', 'accomplish', 'goal', 'victory'],
+        'happiness': ['happy', 'joy', 'smile', 'cheerful', 'delight', 'pleasure'],
+        'love': ['love', 'heart', 'care', 'affection', 'compassion'],
+        'wisdom': ['wise', 'wisdom', 'knowledge', 'learn', 'understand', 'think'],
+        'motivation': ['motivate', 'action', 'move', 'start', 'begin', 'do'],
+        'courage': ['courage', 'brave', 'fear', 'strong', 'bold', 'dare'],
+        'change': ['change', 'transform', 'growth', 'evolve', 'become']
+    };
+    
+    const categoryKeywords = keywords[category] || [];
+    const text = quoteText.toLowerCase();
+    
+    return categoryKeywords.some(keyword => text.includes(keyword));
+}
+
+/**
+ * Show a random quote from the fetched quotes
+ * Ensures no repeats until all quotes are shown
+ */
+function showRandomQuote() {
+    // Check if we've shown all quotes
+    if (shownQuotes.length >= categoryQuotes.length) {
+        // Reset shown quotes to start over
+        shownQuotes = [];
+        statusMessage.textContent = '🔄 All quotes viewed! Starting fresh...';
+    }
+    
+    // Filter out already shown quotes
+    const availableQuotes = categoryQuotes.filter(quote => 
+        !shownQuotes.some(shown => shown.q === quote.q && shown.a === quote.a)
+    );
+    
+    if (availableQuotes.length === 0) {
+        // No quotes available
+        quoteText.textContent = 'No more quotes available in this category.';
+        quoteAuthor.textContent = '';
+        return;
+    }
+    
+    // Pick a random quote from available quotes
+    const randomIndex = Math.floor(Math.random() * availableQuotes.length);
+    const selectedQuote = availableQuotes[randomIndex];
+    
+    // Add to shown quotes
+    shownQuotes.push(selectedQuote);
+    saveShownQuotes();
+    
+    // Display the quote
+    displayQuote(selectedQuote);
+}
+
+/**
  * Load a quote from cached data (for offline use)
  */
 function loadCachedQuote(category) {
     const cachedQuotes = getCachedQuotes(category);
     
-    // Filter out quotes we've already shown
-    const availableQuotes = cachedQuotes.filter(q => !shownQuoteIds.includes(q._id));
-    
-    if (availableQuotes.length > 0) {
-        // Pick a random quote from available cached quotes
-        const randomQuote = availableQuotes[Math.floor(Math.random() * availableQuotes.length)];
-        shownQuoteIds.push(randomQuote._id);
-        saveShownQuotes();
-        displayQuote(randomQuote);
-        statusMessage.textContent = '📱 Showing cached quote (offline mode)';
+    if (cachedQuotes.length > 0) {
+        categoryQuotes = cachedQuotes;
+        showRandomQuote();
+        statusMessage.textContent = '📱 Showing cached quotes (offline mode)';
     } else {
         // No quotes available
         quoteText.textContent = 'Unable to load quotes. Please check your internet connection.';
         quoteAuthor.textContent = '';
-        statusMessage.textContent = '❌ No cached quotes available';
+        statusMessage.textContent = '❌ No cached quotes available. Please connect to the internet.';
     }
 }
 
 /**
  * Display a quote on the screen with animation
  */
-function displayQuote(data) {
+function displayQuote(quote) {
     // Remove existing animation class
     quoteContainer.classList.remove('fade-in');
     
@@ -177,11 +234,12 @@ function displayQuote(data) {
     quoteContainer.classList.add('fade-in');
     
     // Update the text content
-    quoteText.textContent = `"${data.content}"`;
-    quoteAuthor.textContent = `— ${data.author}`;
+    // ZenQuotes uses 'q' for quote text and 'a' for author
+    quoteText.textContent = `"${quote.q}"`;
+    quoteAuthor.textContent = `— ${quote.a}`;
     
     // Show how many unique quotes have been viewed
-    statusMessage.textContent = `✨ ${shownQuoteIds.length} unique quotes viewed in this category`;
+    statusMessage.textContent = `✨ ${shownQuotes.length} of ${categoryQuotes.length} quotes viewed`;
 }
 
 // ============================================
@@ -211,21 +269,24 @@ function showCategoriesSection() {
 function shareQuote() {
     const quote = quoteText.textContent;
     const author = quoteAuthor.textContent;
-    const shareText = `${quote}\n${author}\n\nShared from Quote Galaxy`;
+    const shareText = `${quote}\n${author}\n\n✨ From Quote Galaxy`;
     
     // Check if browser supports native sharing (mostly mobile)
     if (navigator.share) {
         navigator.share({
             title: 'Inspirational Quote',
             text: shareText
-        }).catch(err => console.log('Share failed:', err));
+        }).catch(err => console.log('Share cancelled'));
     } else {
         // Fallback: Copy to clipboard
         navigator.clipboard.writeText(shareText).then(() => {
+            const tempStatus = statusMessage.textContent;
             statusMessage.textContent = '📋 Quote copied to clipboard!';
             setTimeout(() => {
-                statusMessage.textContent = `✨ ${shownQuoteIds.length} unique quotes viewed`;
+                statusMessage.textContent = tempStatus;
             }, 2000);
+        }).catch(() => {
+            statusMessage.textContent = '❌ Could not copy quote';
         });
     }
 }
@@ -239,8 +300,8 @@ function shareQuote() {
  */
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
-        // Get the category tag from the button's data attribute
-        currentCategory = button.getAttribute('data-tag');
+        // Get the category from the button's data attribute
+        currentCategory = button.getAttribute('data-category');
         
         // Load previously shown quotes for this category
         loadShownQuotes();
@@ -248,8 +309,8 @@ categoryButtons.forEach(button => {
         // Switch to quote display view
         showQuoteSection();
         
-        // Fetch and display a quote
-        fetchQuote(currentCategory);
+        // Fetch and display quotes
+        fetchQuotes(currentCategory);
     });
 });
 
@@ -261,10 +322,15 @@ backBtn.addEventListener('click', () => {
 });
 
 /**
- * New Quote button - fetch another quote
+ * New Quote button - show another random quote
  */
 newQuoteBtn.addEventListener('click', () => {
-    fetchQuote(currentCategory);
+    if (categoryQuotes.length > 0) {
+        showRandomQuote();
+    } else {
+        // If no quotes loaded, fetch them again
+        fetchQuotes(currentCategory);
+    }
 });
 
 /**
@@ -277,4 +343,4 @@ shareBtn.addEventListener('click', () => {
 // ============================================
 // INITIALIZATION
 // ============================================
-console.log('Quote Galaxy initialized! ✨');
+console.log('✨ Quote Galaxy initialized with ZenQuotes API!');
