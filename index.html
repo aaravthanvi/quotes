@@ -4,57 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quote Galaxy - Inspirational Quotes</title>
-    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Main container for the entire website -->
     <div class="container">
         
-        <!-- Header section with website title -->
         <header class="header">
             <h1 class="title">✨ Quote Galaxy</h1>
             <p class="subtitle">Explore wisdom from around the world</p>
         </header>
 
-        <!-- Categories section - shown by default -->
+        <!-- Categories section -->
         <section id="categories" class="categories">
             <h2>Choose a Category</h2>
             <div class="category-grid">
-                <!-- Each button represents a quote category -->
-                <button class="category-btn" data-category="inspirational">🌟 Inspirational</button>
+                <button class="category-btn" data-category="all">🌟 All Quotes</button>
                 <button class="category-btn" data-category="life">🌱 Life</button>
-                <button class="category-btn" data-category="success">🏆 Success</button>
-                <button class="category-btn" data-category="happiness">😊 Happiness</button>
                 <button class="category-btn" data-category="love">❤️ Love</button>
-                <button class="category-btn" data-category="wisdom">💡 Wisdom</button>
-                <button class="category-btn" data-category="motivation">🔥 Motivation</button>
-                <button class="category-btn" data-category="courage">⚡ Courage</button>
+                <button class="category-btn" data-category="success">🏆 Success</button>
+                <button class="category-btn" data-category="inspire">💡 Inspiration</button>
+                <button class="category-btn" data-category="wisdom">🧠 Wisdom</button>
+                <button class="category-btn" data-category="time">⏰ Time</button>
                 <button class="category-btn" data-category="change">🔄 Change</button>
-                <button class="category-btn" data-category="all">⭐ Random</button>
+                <button class="category-btn" data-category="mind">🎯 Mind</button>
+                <button class="category-btn" data-category="dream">💭 Dreams</button>
             </div>
         </section>
 
-        <!-- Quote display section - hidden initially -->
+        <!-- Quote display section -->
         <section id="quote-section" class="quote-section hidden">
-            <!-- Back button to return to categories -->
             <button id="back-btn" class="back-btn">← Back to Categories</button>
             
-            <!-- Container for the quote card with fade-in animation -->
             <div id="quote-container" class="quote-container">
                 <div class="quote-card">
-                    <!-- The actual quote text -->
                     <p id="quote-text" class="quote-text">"Loading quote..."</p>
-                    <!-- Author name -->
                     <p id="quote-author" class="quote-author">- Author</p>
                     
-                    <!-- Action buttons container -->
                     <div class="quote-actions">
-                        <!-- Button to get a new quote -->
                         <button id="new-quote-btn" class="action-btn">
                             🔄 New Quote
                         </button>
-                        <!-- Button to share the quote -->
                         <button id="share-btn" class="action-btn share-btn">
                             📤 Share
                         </button>
@@ -62,13 +51,12 @@
                 </div>
             </div>
 
-            <!-- Status message for user feedback -->
             <p id="status-message" class="status-message"></p>
         </section>
 
     </div>
 
-    <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
+
