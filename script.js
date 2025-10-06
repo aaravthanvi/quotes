@@ -17,6 +17,20 @@ let currentCategory = '';
 let allQuotes = [];
 let shownQuoteIds = [];
 
+// Category keywords mapping - multiple keywords for better matching
+const categoryKeywords = {
+    'all': [],
+    'life': ['life', 'live', 'living', 'exist', 'journey', 'experience'],
+    'love': ['love', 'heart', 'compassion', 'kindness', 'care', 'affection'],
+    'success': ['success', 'achieve', 'goal', 'accomplish', 'win', 'victory'],
+    'inspire': ['inspire', 'inspiration', 'motivate', 'encourage', 'empower', 'aspire', 'dream', 'possibility', 'potential', 'greatness'],
+    'wisdom': ['wisdom', 'wise', 'knowledge', 'learn', 'understand', 'truth'],
+    'time': ['time', 'moment', 'past', 'future', 'present', 'today', 'tomorrow'],
+    'change': ['change', 'transform', 'grow', 'evolve', 'adapt', 'different'],
+    'mind': ['mind', 'think', 'thought', 'mental', 'consciousness', 'imagination'],
+    'dream': ['dream', 'vision', 'hope', 'aspiration', 'wish', 'desire']
+};
+
 // ============================================
 // LOCAL STORAGE FUNCTIONS
 // ============================================
@@ -125,6 +139,19 @@ function loadCachedQuotes() {
 }
 
 /**
+ * Check if quote matches any keyword in category
+ */
+function quoteMatchesCategory(quote, category) {
+    if (category === 'all') return true;
+    
+    const keywords = categoryKeywords[category] || [category];
+    const quoteText = quote.quote.toLowerCase();
+    
+    // Check if any keyword is in the quote
+    return keywords.some(keyword => quoteText.includes(keyword.toLowerCase()));
+}
+
+/**
  * Filter and show a quote based on selected category
  */
 function showQuoteFromCategory() {
@@ -134,15 +161,13 @@ function showQuoteFromCategory() {
     if (currentCategory === 'all') {
         filteredQuotes = allQuotes;
     } else {
-        // Search for category keyword in quote text
-        filteredQuotes = allQuotes.filter(q => 
-            q.quote.toLowerCase().includes(currentCategory.toLowerCase())
-        );
+        // Search for category keywords in quote text
+        filteredQuotes = allQuotes.filter(q => quoteMatchesCategory(q, currentCategory));
         
-        // If no matches, show all quotes
-        if (filteredQuotes.length === 0) {
+        // If less than 10 matches, show all quotes to ensure variety
+        if (filteredQuotes.length < 10) {
             filteredQuotes = allQuotes;
-            statusMessage.textContent = '💫 Showing all quotes (no exact category match)';
+            statusMessage.textContent = '💫 Showing all quotes for better variety';
         }
     }
     
@@ -187,7 +212,7 @@ function displayQuote(quote) {
     
     // Update status
     const totalInCategory = currentCategory === 'all' ? allQuotes.length : 
-        allQuotes.filter(q => q.quote.toLowerCase().includes(currentCategory.toLowerCase())).length;
+        allQuotes.filter(q => quoteMatchesCategory(q, currentCategory)).length;
     
     statusMessage.textContent = `✨ ${shownQuoteIds.length} quotes viewed`;
 }
