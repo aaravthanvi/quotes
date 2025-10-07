@@ -4,59 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quote Galaxy - Inspirational Quotes</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Font - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
         
-        <header class="header">
-            <h1 class="title">✨ Quote Galaxy</h1>
-            <p class="subtitle">Explore wisdom from around the world</p>
-        </header>
+        /* Smooth page transitions */
+        .fade-enter { 
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Category badge micro-interaction */
+        .category-badge {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.3s ease;
+        }
+        
+        .category-badge:hover::before {
+            left: 100%;
+        }
+        
+        /* Quote card reveal animation */
+        .quote-reveal {
+            animation: quoteReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes quoteReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Status badge expand on hover */
+        .status-badge {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .status-badge:hover {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0f] text-gray-100 min-h-screen">
 
-        <!-- Categories section -->
-        <section id="categories" class="categories">
-            <h2>Choose a Category</h2>
-            <div class="category-grid">
-                <button class="category-btn" data-category="all">🌟 All Quotes</button>
-                <button class="category-btn" data-category="life">🌱 Life</button>
-                <button class="category-btn" data-category="love">❤️ Love</button>
-                <button class="category-btn" data-category="success">🏆 Success</button>
-                <button class="category-btn" data-category="inspire">💡 Inspiration</button>
-                <button class="category-btn" data-category="wisdom">🧠 Wisdom</button>
-                <button class="category-btn" data-category="time">⏰ Time</button>
-                <button class="category-btn" data-category="change">🔄 Change</button>
-                <button class="category-btn" data-category="mind">🎯 Mind</button>
-                <button class="category-btn" data-category="dream">💭 Dreams</button>
-            </div>
-        </section>
-
-        <!-- Quote display section -->
-        <section id="quote-section" class="quote-section hidden">
-            <button id="back-btn" class="back-btn">← Back to Categories</button>
+    <!-- Categories Section -->
+    <section id="categories" class="min-h-screen flex items-center justify-center px-4 py-12 fade-enter">
+        <div class="max-w-5xl w-full">
             
-            <div id="quote-container" class="quote-container">
-                <div class="quote-card">
-                    <p id="quote-text" class="quote-text">"Loading quote..."</p>
-                    <p id="quote-author" class="quote-author">- Author</p>
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 mb-4">
+                    <i class="fas fa-sparkles text-blue-400 text-2xl"></i>
+                    <h1 class="text-5xl font-bold tracking-tight">Quote Galaxy</h1>
+                </div>
+                <p class="text-gray-400 text-lg">Explore wisdom from around the world</p>
+            </div>
+
+            <!-- Category Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="all">
+                    <i class="fas fa-infinity text-2xl mb-2 text-blue-400"></i>
+                    <p class="text-sm font-medium">All Quotes</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="life">
+                    <i class="fas fa-seedling text-2xl mb-2 text-green-400"></i>
+                    <p class="text-sm font-medium">Life</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="love">
+                    <i class="fas fa-heart text-2xl mb-2 text-red-400"></i>
+                    <p class="text-sm font-medium">Love</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="success">
+                    <i class="fas fa-trophy text-2xl mb-2 text-yellow-400"></i>
+                    <p class="text-sm font-medium">Success</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="inspire">
+                    <i class="fas fa-lightbulb text-2xl mb-2 text-purple-400"></i>
+                    <p class="text-sm font-medium">Inspiration</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="wisdom">
+                    <i class="fas fa-brain text-2xl mb-2 text-indigo-400"></i>
+                    <p class="text-sm font-medium">Wisdom</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="time">
+                    <i class="fas fa-clock text-2xl mb-2 text-cyan-400"></i>
+                    <p class="text-sm font-medium">Time</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="change">
+                    <i class="fas fa-rotate text-2xl mb-2 text-orange-400"></i>
+                    <p class="text-sm font-medium">Change</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="mind">
+                    <i class="fas fa-bullseye text-2xl mb-2 text-pink-400"></i>
+                    <p class="text-sm font-medium">Mind</p>
+                </button>
+                
+                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="dream">
+                    <i class="fas fa-cloud text-2xl mb-2 text-violet-400"></i>
+                    <p class="text-sm font-medium">Dreams</p>
+                </button>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Quote Display Section -->
+    <section id="quote-section" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="max-w-3xl w-full">
+            
+            <!-- Back Button -->
+            <button id="back-btn" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8">
+                <i class="fas fa-arrow-left"></i>
+                <span class="text-sm font-medium">Back to categories</span>
+            </button>
+
+            <!-- Quote Card -->
+            <div id="quote-container" class="quote-reveal">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12">
                     
-                    <div class="quote-actions">
-                        <button id="new-quote-btn" class="action-btn">
-                            🔄 New Quote
+                    <i class="fas fa-quote-left text-3xl text-white/20 mb-6"></i>
+                    
+                    <p id="quote-text" class="text-2xl md:text-3xl font-normal leading-relaxed mb-6">
+                        Loading quote...
+                    </p>
+                    
+                    <p id="quote-author" class="text-blue-400 font-medium text-lg mb-8">
+                        — Author
+                    </p>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-3">
+                        <button id="new-quote-btn" class="flex-1 min-w-[140px] bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-6 py-3 font-medium transition-colors">
+                            <i class="fas fa-rotate-right mr-2"></i>
+                            New Quote
                         </button>
-                        <button id="share-btn" class="action-btn share-btn">
-                            📤 Share
+                        <button id="share-btn" class="flex-1 min-w-[140px] bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg px-6 py-3 font-medium transition-colors">
+                            <i class="fas fa-share-nodes mr-2"></i>
+                            Share
                         </button>
                     </div>
+                    
                 </div>
             </div>
 
-            <p id="status-message" class="status-message"></p>
-        </section>
-
-    </div>
+            <!-- Status Message -->
+            <div class="flex justify-center mt-6">
+                <div id="status-message" class="status-badge inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-400">
+                </div>
+            </div>
+            
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
 </html>
-
