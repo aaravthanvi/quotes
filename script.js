@@ -19,10 +19,13 @@ const translations = {
         back: 'Back to categories',
         'new-quote': 'New Quote',
         share: 'Share',
+        voice: 'Listen',
         loading: 'Loading...',
         offline: 'Offline mode',
         copied: 'Copied to clipboard!',
-        viewed: 'quotes viewed'
+        viewed: 'quotes viewed',
+        reading: 'Reading aloud...',
+        stopped: 'Stopped'
     },
     hi: {
         title: 'कोट गैलेक्सी',
@@ -40,10 +43,13 @@ const translations = {
         back: 'श्रेणियों पर वापस जाएं',
         'new-quote': 'नया उद्धरण',
         share: 'साझा करें',
+        voice: 'सुनें',
         loading: 'लोड हो रहा है...',
         offline: 'ऑफ़लाइन मोड',
         copied: 'क्लिपबोर्ड पर कॉपी किया गया!',
-        viewed: 'उद्धरण देखे गए'
+        viewed: 'उद्धरण देखे गए',
+        reading: 'पढ़ रहे हैं...',
+        stopped: 'रुका'
     },
     es: {
         title: 'Quote Galaxy',
@@ -61,10 +67,13 @@ const translations = {
         back: 'Volver a categorías',
         'new-quote': 'Nueva cita',
         share: 'Compartir',
+        voice: 'Escuchar',
         loading: 'Cargando...',
         offline: 'Modo sin conexión',
         copied: '¡Copiado al portapapeles!',
-        viewed: 'citas vistas'
+        viewed: 'citas vistas',
+        reading: 'Leyendo en voz alta...',
+        stopped: 'Detenido'
     },
     fr: {
         title: 'Quote Galaxy',
@@ -82,10 +91,13 @@ const translations = {
         back: 'Retour aux catégories',
         'new-quote': 'Nouvelle citation',
         share: 'Partager',
+        voice: 'Écouter',
         loading: 'Chargement...',
         offline: 'Mode hors ligne',
         copied: 'Copié dans le presse-papiers!',
-        viewed: 'citations consultées'
+        viewed: 'citations consultées',
+        reading: 'Lecture à haute voix...',
+        stopped: 'Arrêté'
     },
     de: {
         title: 'Quote Galaxy',
@@ -103,10 +115,13 @@ const translations = {
         back: 'Zurück zu Kategorien',
         'new-quote': 'Neues Zitat',
         share: 'Teilen',
+        voice: 'Anhören',
         loading: 'Laden...',
         offline: 'Offline-Modus',
         copied: 'In Zwischenablage kopiert!',
-        viewed: 'Zitate angesehen'
+        viewed: 'Zitate angesehen',
+        reading: 'Vorlesen...',
+        stopped: 'Gestoppt'
     },
     ja: {
         title: 'Quote Galaxy',
@@ -124,10 +139,13 @@ const translations = {
         back: 'カテゴリーに戻る',
         'new-quote': '新しい引用',
         share: '共有',
+        voice: '聞く',
         loading: '読み込み中...',
         offline: 'オフラインモード',
         copied: 'クリップボードにコピーしました！',
-        viewed: '引用を見た'
+        viewed: '引用を見た',
+        reading: '読み上げ中...',
+        stopped: '停止'
     },
     zh: {
         title: 'Quote Galaxy',
@@ -145,10 +163,13 @@ const translations = {
         back: '返回类别',
         'new-quote': '新引语',
         share: '分享',
+        voice: '听',
         loading: '加载中...',
         offline: '离线模式',
         copied: '已复制到剪贴板！',
-        viewed: '已查看引语'
+        viewed: '已查看引语',
+        reading: '朗读中...',
+        stopped: '已停止'
     }
 };
 
@@ -165,18 +186,23 @@ const quoteContainer = document.getElementById('quote-container');
 const backBtn = document.getElementById('back-btn');
 const newQuoteBtn = document.getElementById('new-quote-btn');
 const shareBtn = document.getElementById('share-btn');
+const voiceBtn = document.getElementById('voice-btn');
 const categoryButtons = document.querySelectorAll('.category-btn');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsPanel = document.getElementById('settings-panel');
 const closeSettingsBtn = document.getElementById('close-settings');
 const themeButtons = document.querySelectorAll('.theme-btn');
 const languageSelect = document.getElementById('language-select');
+const installBtn = document.getElementById('install-btn');
 
 let currentCategory = '';
 let allQuotes = [];
 let shownQuoteIds = [];
 let currentLanguage = 'en';
 let easterEggInput = '';
+let deferredPrompt = null;
+let speechSynthesis = window.speechSynthesis;
+let currentUtterance = null;
 
 const categoryKeywords = {
     'all': [],
@@ -192,6 +218,34 @@ const categoryKeywords = {
 };
 
 // ============================================
+// PWA INSTALL
+// ============================================
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.remove('hidden');
+});
+
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+        installBtn.classList.add('hidden');
+    }
+    
+    deferredPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+    installBtn.classList.add('hidden');
+    statusMessage.innerHTML = '<i class="fas fa-check mr-2"></i>App installed successfully!';
+});
+
+// ============================================
 // DEVICE DETECTION
 // ============================================
 
@@ -201,21 +255,18 @@ function detectDevice() {
     let os = 'Unknown';
     let browser = 'Unknown';
     
-    // Detect device type
     if (/mobile/i.test(ua)) {
         deviceType = 'Mobile';
     } else if (/tablet|ipad/i.test(ua)) {
         deviceType = 'Tablet';
     }
     
-    // Detect OS
     if (/windows/i.test(ua)) os = 'Windows';
     else if (/mac/i.test(ua)) os = 'macOS';
     else if (/linux/i.test(ua)) os = 'Linux';
     else if (/android/i.test(ua)) os = 'Android';
     else if (/iphone|ipad|ipod/i.test(ua)) os = 'iOS';
     
-    // Detect browser
     if (/firefox/i.test(ua)) browser = 'Firefox';
     else if (/chrome/i.test(ua) && !/edg/i.test(ua)) browser = 'Chrome';
     else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
@@ -226,7 +277,6 @@ function detectDevice() {
     document.getElementById('device-os').textContent = `OS: ${os}`;
     document.getElementById('device-browser').textContent = `Browser: ${browser}`;
     
-    // Apply device-specific adjustments
     if (deviceType === 'Mobile') {
         document.body.classList.add('mobile-layout');
     }
@@ -241,6 +291,13 @@ function detectDevice() {
 function setTheme(themeName) {
     document.documentElement.setAttribute('data-theme', themeName);
     localStorage.setItem('theme', themeName);
+    
+    // Update Open Graph theme color
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+        const computedColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+        themeColorMeta.setAttribute('content', computedColor);
+    }
 }
 
 function loadTheme() {
@@ -257,7 +314,6 @@ function setLanguage(lang) {
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('lang', lang);
     
-    // Update all translatable elements
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
@@ -270,6 +326,59 @@ function detectLanguage() {
     const browserLang = navigator.language.split('-')[0];
     const savedLang = localStorage.getItem('language');
     return savedLang || (translations[browserLang] ? browserLang : 'en');
+}
+
+// ============================================
+// VOICE SYNTHESIS
+// ============================================
+
+function speakQuote() {
+    if (!speechSynthesis) {
+        statusMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Voice not supported';
+        return;
+    }
+    
+    // Stop if already speaking
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        voiceBtn.classList.remove('voice-active');
+        statusMessage.innerHTML = '<i class="fas fa-stop mr-2"></i>' + translations[currentLanguage].stopped;
+        return;
+    }
+    
+    const quote = quoteText.textContent;
+    const author = quoteAuthor.textContent;
+    const textToSpeak = `${quote}. ${author}`;
+    
+    currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    currentUtterance.lang = currentLanguage === 'en' ? 'en-US' : 
+                           currentLanguage === 'hi' ? 'hi-IN' :
+                           currentLanguage === 'es' ? 'es-ES' :
+                           currentLanguage === 'fr' ? 'fr-FR' :
+                           currentLanguage === 'de' ? 'de-DE' :
+                           currentLanguage === 'ja' ? 'ja-JP' :
+                           currentLanguage === 'zh' ? 'zh-CN' : 'en-US';
+    
+    currentUtterance.rate = 0.9;
+    currentUtterance.pitch = 1.0;
+    currentUtterance.volume = 1.0;
+    
+    currentUtterance.onstart = () => {
+        voiceBtn.classList.add('voice-active');
+        statusMessage.innerHTML = '<i class="fas fa-volume-high mr-2"></i>' + translations[currentLanguage].reading;
+    };
+    
+    currentUtterance.onend = () => {
+        voiceBtn.classList.remove('voice-active');
+        statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} ${translations[currentLanguage].viewed}`;
+    };
+    
+    currentUtterance.onerror = () => {
+        voiceBtn.classList.remove('voice-active');
+        statusMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Voice error';
+    };
+    
+    speechSynthesis.speak(currentUtterance);
 }
 
 // ============================================
@@ -399,9 +508,31 @@ function displayQuote(quote) {
     quoteContainer.classList.add('quote-reveal');
     
     quoteText.textContent = quote.quote;
-    quoteAuthor.textContent = `— ${quote.author}`;
+    
+    // Update author with proper markup
+    const authorSpan = quoteAuthor.querySelector('[itemprop="name"]');
+    if (authorSpan) {
+        authorSpan.textContent = quote.author;
+    }
     
     statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} ${translations[currentLanguage].viewed}`;
+    
+    // Update Open Graph meta tags dynamically
+    updateMetaTags(quote);
+}
+
+function updateMetaTags(quote) {
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    const twitterDescription = document.querySelector('meta[property="twitter:description"]');
+    
+    const shareText = `"${quote.quote}" — ${quote.author}`;
+    
+    if (ogTitle) ogTitle.setAttribute('content', `${shareText} | Quote Galaxy`);
+    if (ogDescription) ogDescription.setAttribute('content', shareText);
+    if (twitterTitle) twitterTitle.setAttribute('content', `${shareText} | Quote Galaxy`);
+    if (twitterDescription) twitterDescription.setAttribute('content', shareText);
 }
 
 // ============================================
@@ -419,6 +550,12 @@ function showCategoriesSection() {
     quoteSection.classList.add('hidden');
     categoriesSection.classList.remove('hidden');
     categoryButtons[0].focus();
+    
+    // Stop speaking if active
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        voiceBtn.classList.remove('voice-active');
+    }
 }
 
 function toggleSettings() {
@@ -430,13 +567,15 @@ function toggleSettings() {
 
 function shareQuote() {
     const quote = quoteText.textContent;
-    const author = quoteAuthor.textContent;
-    const shareText = `${quote}\n${author}\n\n✨ From Quote Galaxy`;
+    const authorName = quoteAuthor.querySelector('[itemprop="name"]')?.textContent || 'Unknown';
+    const shareText = `"${quote}"\n— ${authorName}\n\n✨ From Quote Galaxy\n${window.location.href}`;
+    const shareTitle = 'Inspirational Quote';
     
     if (navigator.share) {
         navigator.share({
-            title: 'Inspirational Quote',
-            text: shareText
+            title: shareTitle,
+            text: shareText,
+            url: window.location.href
         }).catch(err => console.log('Share cancelled'));
     } else {
         navigator.clipboard.writeText(shareText).then(() => {
@@ -456,7 +595,6 @@ function shareQuote() {
 // ============================================
 
 document.addEventListener('keydown', (e) => {
-    // Easter egg detection
     easterEggInput += e.key.toLowerCase();
     if (easterEggInput.length > 10) {
         easterEggInput = easterEggInput.slice(-10);
@@ -473,18 +611,15 @@ document.addEventListener('keydown', (e) => {
         easterEggInput = '';
     }
     
-    // Prevent shortcuts when typing in input
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
         return;
     }
     
-    // Settings toggle (S key)
     if (e.key === 's' || e.key === 'S') {
         e.preventDefault();
         toggleSettings();
     }
     
-    // Escape key - Close settings or go back
     if (e.key === 'Escape') {
         e.preventDefault();
         if (settingsPanel.classList.contains('open')) {
@@ -494,13 +629,11 @@ document.addEventListener('keydown', (e) => {
         }
     }
     
-    // Back (B key)
     if ((e.key === 'b' || e.key === 'B') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
         showCategoriesSection();
     }
     
-    // New quote (Space or N key)
     if ((e.key === ' ' || e.key === 'n' || e.key === 'N') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
         if (allQuotes.length > 0) {
@@ -510,13 +643,16 @@ document.addEventListener('keydown', (e) => {
         }
     }
     
-    // Share (C key for Copy)
     if ((e.key === 'c' || e.key === 'C') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
         shareQuote();
     }
     
-    // Category shortcuts (1-9 keys)
+    if ((e.key === 'v' || e.key === 'V') && !quoteSection.classList.contains('hidden')) {
+        e.preventDefault();
+        speakQuote();
+    }
+    
     if (!quoteSection.classList.contains('hidden')) return;
     
     const numKey = parseInt(e.key);
@@ -563,6 +699,10 @@ shareBtn.addEventListener('click', () => {
     shareQuote();
 });
 
+voiceBtn.addEventListener('click', () => {
+    speakQuote();
+});
+
 settingsBtn.addEventListener('click', () => {
     toggleSettings();
 });
@@ -583,30 +723,46 @@ languageSelect.addEventListener('change', (e) => {
 });
 
 // ============================================
+// URL PARAMETER HANDLING (for shortcuts)
+// ============================================
+
+function handleURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    
+    if (category && categoryKeywords[category]) {
+        currentCategory = category;
+        loadShownQuotes();
+        showQuoteSection();
+        
+        if (allQuotes.length > 0) {
+            showQuoteFromCategory();
+        } else {
+            fetchAllQuotes();
+        }
+    }
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 
-console.log('✨ Quote Galaxy initialized!');
+console.log('✨ Quote Galaxy PWA initialized!');
 
-// Load theme
 loadTheme();
 
-// Detect and set language
 const detectedLang = detectLanguage();
 languageSelect.value = detectedLang;
 setLanguage(detectedLang);
 
-// Detect device
 detectDevice();
 
-// Load cached quotes
 const cached = getCachedQuotes();
 if (cached.length > 0) {
     allQuotes = cached;
     console.log('📦 Loaded', allQuotes.length, 'quotes from cache');
 }
 
-// Auto-detect seasonal theme on first visit
 if (!localStorage.getItem('theme')) {
     const month = new Date().getMonth();
     let seasonalTheme = 'vscode-dark';
@@ -618,3 +774,5 @@ if (!localStorage.getItem('theme')) {
     
     setTheme(seasonalTheme);
 }
+
+handleURLParams();
