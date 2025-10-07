@@ -3,7 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quote Galaxy - Inspirational Quotes</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Quote Galaxy - Inspirational Quotes from Around the World</title>
+    <meta name="title" content="Quote Galaxy - Inspirational Quotes from Around the World">
+    <meta name="description" content="Explore 1000+ inspirational quotes across 10 categories including Life, Love, Success, Wisdom. Get daily motivation with beautiful themes and multilingual support.">
+    <meta name="keywords" content="quotes, inspirational quotes, motivational quotes, wisdom, life quotes, success quotes, daily quotes">
+    <meta name="author" content="Aarav Thaanvi">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aaravthanvi.github.io/quotes/">
+    <meta property="og:title" content="Quote Galaxy - Inspirational Quotes">
+    <meta property="og:description" content="Explore wisdom from around the world with 1000+ inspirational quotes across 10 categories. Beautiful themes, multilingual support, and daily motivation.">
+    <meta property="og:image" content="https://placehold.co/1200x630/0a0a0f/3b82f6?text=Quote+Galaxy+-+Inspirational+Quotes">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://aaravthanvi.github.io/quotes/">
+    <meta property="twitter:title" content="Quote Galaxy - Inspirational Quotes">
+    <meta property="twitter:description" content="Explore wisdom from around the world with 1000+ inspirational quotes across 10 categories.">
+    <meta property="twitter:image" content="https://placehold.co/1200x630/0a0a0f/3b82f6?text=Quote+Galaxy+-+Inspirational+Quotes">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Quote Galaxy">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2541/2541988.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2541/2541988.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,6 +48,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Quote Galaxy",
+      "url": "https://aaravthanvi.github.io/quotes/",
+      "description": "Explore 1000+ inspirational quotes across 10 categories including Life, Love, Success, Wisdom",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Aarav Thaanvi"
+      },
+      "inLanguage": ["en", "hi", "es", "fr", "de", "ja", "zh"]
+    }
+    </script>
     
     <style>
         * { 
@@ -330,6 +386,16 @@
             border-radius: 0.25rem;
             color: var(--text-secondary);
         }
+        
+        /* Voice button pulse animation */
+        @keyframes voicePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .voice-active {
+            animation: voicePulse 1.5s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -400,8 +466,12 @@
                         <span class="kbd">Space / N</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Share</span>
+                        <span>Share/Copy</span>
                         <span class="kbd">C</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Read Aloud</span>
+                        <span class="kbd">V</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Back</span>
@@ -422,6 +492,14 @@
                     <p id="device-os">OS: Loading...</p>
                     <p id="device-browser">Browser: Loading...</p>
                 </div>
+            </div>
+            
+            <!-- Install App Button -->
+            <div class="mb-6">
+                <button id="install-btn" class="hidden w-full accent-bg text-white rounded-lg p-3 font-medium">
+                    <i class="fas fa-download mr-2"></i>
+                    Install App
+                </button>
             </div>
             
             <!-- Easter Egg Hint -->
@@ -512,18 +590,20 @@
                 <span class="text-sm font-medium" data-i18n="back">Back to categories</span>
             </button>
 
-            <!-- Quote Card -->
+            <!-- Quote Card with Schema.org markup -->
             <div id="quote-container" class="quote-reveal">
-                <div class="bg-secondary border border-custom rounded-2xl p-8 md:p-12">
+                <div class="bg-secondary border border-custom rounded-2xl p-8 md:p-12" itemscope itemtype="https://schema.org/Quotation">
                     
                     <i class="fas fa-quote-left text-3xl opacity-20 mb-6"></i>
                     
-                    <p id="quote-text" class="text-2xl md:text-3xl font-normal leading-relaxed mb-6">
+                    <p id="quote-text" itemprop="text" class="text-2xl md:text-3xl font-normal leading-relaxed mb-6">
                         Loading quote...
                     </p>
                     
                     <p id="quote-author" class="accent-color font-medium text-lg mb-8">
-                        — Author
+                        — <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+                            <span itemprop="name">Author</span>
+                        </span>
                     </p>
                     
                     <!-- Action Buttons -->
@@ -532,7 +612,11 @@
                             <i class="fas fa-rotate-right mr-2"></i>
                             <span data-i18n="new-quote">New Quote</span>
                         </button>
-                        <button id="share-btn" tabindex="26" class="flex-1 min-w-[140px] accent-bg accent-bg:hover border border-custom rounded-lg px-6 py-3 font-medium">
+                        <button id="voice-btn" tabindex="26" class="flex-1 min-w-[140px] bg-secondary bg-hover border border-custom rounded-lg px-6 py-3 font-medium" title="Read aloud (V)">
+                            <i class="fas fa-volume-high mr-2"></i>
+                            <span data-i18n="voice">Listen</span>
+                        </button>
+                        <button id="share-btn" tabindex="27" class="flex-1 min-w-[140px] accent-bg accent-bg:hover border border-custom rounded-lg px-6 py-3 font-medium">
                             <i class="fas fa-share-nodes mr-2"></i>
                             <span data-i18n="share">Share</span>
                         </button>
