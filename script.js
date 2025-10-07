@@ -16,6 +16,7 @@ const translations = {
         'cat-change': 'Change',
         'cat-mind': 'Mind',
         'cat-dream': 'Dreams',
+        'cat-peace': 'Peace',
         back: 'Back to categories',
         'new-quote': 'New Quote',
         share: 'Share',
@@ -40,6 +41,7 @@ const translations = {
         'cat-change': 'परिवर्तन',
         'cat-mind': 'मन',
         'cat-dream': 'सपने',
+        'cat-peace': 'शांति',
         back: 'श्रेणियों पर वापस जाएं',
         'new-quote': 'नया उद्धरण',
         share: 'साझा करें',
@@ -64,6 +66,7 @@ const translations = {
         'cat-change': 'Cambio',
         'cat-mind': 'Mente',
         'cat-dream': 'Sueños',
+        'cat-peace': 'Paz',
         back: 'Volver a categorías',
         'new-quote': 'Nueva cita',
         share: 'Compartir',
@@ -88,6 +91,7 @@ const translations = {
         'cat-change': 'Changement',
         'cat-mind': 'Esprit',
         'cat-dream': 'Rêves',
+        'cat-peace': 'Paix',
         back: 'Retour aux catégories',
         'new-quote': 'Nouvelle citation',
         share: 'Partager',
@@ -112,6 +116,7 @@ const translations = {
         'cat-change': 'Veränderung',
         'cat-mind': 'Geist',
         'cat-dream': 'Träume',
+        'cat-peace': 'Frieden',
         back: 'Zurück zu Kategorien',
         'new-quote': 'Neues Zitat',
         share: 'Teilen',
@@ -136,6 +141,7 @@ const translations = {
         'cat-change': '変化',
         'cat-mind': '心',
         'cat-dream': '夢',
+        'cat-peace': '平和',
         back: 'カテゴリーに戻る',
         'new-quote': '新しい引用',
         share: '共有',
@@ -160,6 +166,7 @@ const translations = {
         'cat-change': '变化',
         'cat-mind': '思维',
         'cat-dream': '梦想',
+        'cat-peace': '和平',
         back: '返回类别',
         'new-quote': '新引语',
         share: '分享',
@@ -214,7 +221,8 @@ const categoryKeywords = {
     'time': ['time', 'moment', 'past', 'future', 'present', 'today', 'tomorrow'],
     'change': ['change', 'transform', 'grow', 'evolve', 'adapt', 'different'],
     'mind': ['mind', 'think', 'thought', 'mental', 'consciousness', 'imagination'],
-    'dream': ['dream', 'vision', 'hope', 'aspiration', 'wish', 'desire']
+    'dream': ['dream', 'vision', 'hope', 'aspiration', 'wish', 'desire'],
+    'peace': ['peace', 'calm', 'quiet', 'tranquil', 'serene', 'still', 'silence', 'rest', 'harmony', 'balance', 'ease', 'gentle', 'soothe', 'relax']
 };
 
 // ============================================
@@ -292,7 +300,6 @@ function setTheme(themeName) {
     document.documentElement.setAttribute('data-theme', themeName);
     localStorage.setItem('theme', themeName);
     
-    // Update Open Graph theme color
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
         const computedColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
@@ -338,7 +345,6 @@ function speakQuote() {
         return;
     }
     
-    // Stop if already speaking
     if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
         voiceBtn.classList.remove('voice-active');
@@ -509,7 +515,6 @@ function displayQuote(quote) {
     
     quoteText.textContent = quote.quote;
     
-    // Update author with proper markup
     const authorSpan = quoteAuthor.querySelector('[itemprop="name"]');
     if (authorSpan) {
         authorSpan.textContent = quote.author;
@@ -517,7 +522,6 @@ function displayQuote(quote) {
     
     statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} ${translations[currentLanguage].viewed}`;
     
-    // Update Open Graph meta tags dynamically
     updateMetaTags(quote);
 }
 
@@ -551,7 +555,6 @@ function showCategoriesSection() {
     categoriesSection.classList.remove('hidden');
     categoryButtons[0].focus();
     
-    // Stop speaking if active
     if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
         voiceBtn.classList.remove('voice-active');
@@ -747,7 +750,7 @@ function handleURLParams() {
 // INITIALIZATION
 // ============================================
 
-console.log('✨ Quote Galaxy PWA initialized!');
+console.log('✨ Quote Galaxy PWA initialized with 11 categories!');
 
 loadTheme();
 
