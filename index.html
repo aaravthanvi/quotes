@@ -14,12 +14,231 @@
     <!-- Google Font - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * { 
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
         
-        /* Smooth page transitions */
+        /* Theme Variables - Default Dark */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: rgba(255, 255, 255, 0.05);
+            --bg-hover: rgba(255, 255, 255, 0.10);
+            --border-color: rgba(255, 255, 255, 0.10);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+        }
+        
+        /* VS Code Dark Theme */
+        [data-theme="vscode-dark"] {
+            --bg-primary: #1e1e1e;
+            --bg-secondary: #252526;
+            --bg-hover: #2d2d30;
+            --border-color: #3e3e42;
+            --text-primary: #d4d4d4;
+            --text-secondary: #808080;
+            --accent-color: #007acc;
+            --accent-hover: #005a9e;
+        }
+        
+        /* Monokai Theme */
+        [data-theme="monokai"] {
+            --bg-primary: #272822;
+            --bg-secondary: #3e3d32;
+            --bg-hover: #49483e;
+            --border-color: #75715e;
+            --text-primary: #f8f8f2;
+            --text-secondary: #75715e;
+            --accent-color: #a6e22e;
+            --accent-hover: #8fc720;
+        }
+        
+        /* Nord Theme */
+        [data-theme="nord"] {
+            --bg-primary: #2e3440;
+            --bg-secondary: #3b4252;
+            --bg-hover: #434c5e;
+            --border-color: #4c566a;
+            --text-primary: #eceff4;
+            --text-secondary: #d8dee9;
+            --accent-color: #88c0d0;
+            --accent-hover: #81a1c1;
+        }
+        
+        /* Dracula Theme */
+        [data-theme="dracula"] {
+            --bg-primary: #282a36;
+            --bg-secondary: #44475a;
+            --bg-hover: #6272a4;
+            --border-color: #6272a4;
+            --text-primary: #f8f8f2;
+            --text-secondary: #6272a4;
+            --accent-color: #bd93f9;
+            --accent-hover: #ff79c6;
+        }
+        
+        /* GitHub Dark Theme */
+        [data-theme="github-dark"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-hover: #21262d;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-color: #58a6ff;
+            --accent-hover: #1f6feb;
+        }
+        
+        /* Solarized Dark Theme */
+        [data-theme="solarized-dark"] {
+            --bg-primary: #002b36;
+            --bg-secondary: #073642;
+            --bg-hover: #094656;
+            --border-color: #586e75;
+            --text-primary: #839496;
+            --text-secondary: #657b83;
+            --accent-color: #2aa198;
+            --accent-hover: #268bd2;
+        }
+        
+        /* Spring Theme */
+        [data-theme="spring"] {
+            --bg-primary: #f0f9ff;
+            --bg-secondary: #e0f2fe;
+            --bg-hover: #bae6fd;
+            --border-color: #7dd3fc;
+            --text-primary: #0c4a6e;
+            --text-secondary: #075985;
+            --accent-color: #22c55e;
+            --accent-hover: #16a34a;
+        }
+        
+        /* Summer Theme */
+        [data-theme="summer"] {
+            --bg-primary: #fffbeb;
+            --bg-secondary: #fef3c7;
+            --bg-hover: #fde68a;
+            --border-color: #fcd34d;
+            --text-primary: #78350f;
+            --text-secondary: #92400e;
+            --accent-color: #f59e0b;
+            --accent-hover: #d97706;
+        }
+        
+        /* Autumn Theme */
+        [data-theme="autumn"] {
+            --bg-primary: #1c1917;
+            --bg-secondary: #292524;
+            --bg-hover: #44403c;
+            --border-color: #57534e;
+            --text-primary: #fafaf9;
+            --text-secondary: #d6d3d1;
+            --accent-color: #fb923c;
+            --accent-hover: #f97316;
+        }
+        
+        /* Winter Theme */
+        [data-theme="winter"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-hover: #e2e8f0;
+            --border-color: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-color: #0ea5e9;
+            --accent-hover: #0284c7;
+        }
+        
+        /* Hidden Rainbow Theme */
+        [data-theme="rainbow"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-hover: #404040;
+            --border-color: #666;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #ff6b6b;
+            --accent-hover: #ee5a6f;
+            background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf);
+            background-size: 400% 400%;
+            animation: rainbowShift 15s ease infinite;
+        }
+        
+        /* Hidden Matrix Theme */
+        [data-theme="matrix"] {
+            --bg-primary: #000000;
+            --bg-secondary: #0d0d0d;
+            --bg-hover: #1a1a1a;
+            --border-color: #00ff00;
+            --text-primary: #00ff00;
+            --text-secondary: #008800;
+            --accent-color: #00ff00;
+            --accent-hover: #00cc00;
+        }
+        
+        /* Hidden Retro Theme */
+        [data-theme="retro"] {
+            --bg-primary: #fef9c7;
+            --bg-secondary: #fdf0aa;
+            --bg-hover: #fce896;
+            --border-color: #8b7355;
+            --text-primary: #5d4037;
+            --text-secondary: #795548;
+            --accent-color: #d84315;
+            --accent-hover: #bf360c;
+            font-family: 'Courier New', monospace;
+        }
+        
+        @keyframes rainbowShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .bg-secondary {
+            background-color: var(--bg-secondary);
+        }
+        
+        .bg-hover:hover {
+            background-color: var(--bg-hover);
+        }
+        
+        .border-custom {
+            border-color: var(--border-color);
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+        
+        .accent-color {
+            color: var(--accent-color);
+        }
+        
+        .accent-bg {
+            background-color: var(--accent-color);
+        }
+        
+        .accent-bg:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Focus styles for keyboard navigation */
+        *:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+        
+        /* Smooth animations */
         .fade-enter { 
             animation: fadeIn 0.4s ease-out;
         }
@@ -29,7 +248,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Category badge micro-interaction */
         .category-badge {
             position: relative;
             overflow: hidden;
@@ -46,11 +264,11 @@
             transition: left 0.3s ease;
         }
         
-        .category-badge:hover::before {
+        .category-badge:hover::before,
+        .category-badge:focus::before {
             left: 100%;
         }
         
-        /* Quote card reveal animation */
         .quote-reveal {
             animation: quoteReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -66,7 +284,6 @@
             }
         }
         
-        /* Status badge expand on hover */
         .status-badge {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -75,9 +292,137 @@
             padding-left: 1.25rem;
             padding-right: 1.25rem;
         }
+        
+        /* Settings panel */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .settings-panel.open {
+            right: 0;
+        }
+        
+        /* Keyboard shortcuts help */
+        .kbd {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
-<body class="bg-[#0a0a0f] text-gray-100 min-h-screen">
+<body class="min-h-screen">
+
+    <!-- Settings Button (Fixed) -->
+    <button id="settings-btn" tabindex="1" class="fixed top-4 right-4 z-50 bg-secondary border-custom border rounded-lg p-3 bg-hover focus:ring-2" title="Settings (S)" aria-label="Open Settings">
+        <i class="fas fa-cog text-xl"></i>
+    </button>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="settings-panel" role="dialog" aria-labelledby="settings-title">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="settings-title" class="text-2xl font-bold">Settings</h2>
+                <button id="close-settings" tabindex="2" class="text-secondary hover:text-primary" aria-label="Close Settings">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Theme Selection -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Theme</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="vscode-dark" tabindex="3">VS Code Dark</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="monokai" tabindex="4">Monokai</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="nord" tabindex="5">Nord</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="dracula" tabindex="6">Dracula</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="github-dark" tabindex="7">GitHub Dark</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="solarized-dark" tabindex="8">Solarized Dark</button>
+                </div>
+            </div>
+            
+            <!-- Seasonal Themes -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Seasonal</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="spring" tabindex="9">🌸 Spring</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="summer" tabindex="10">☀️ Summer</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="autumn" tabindex="11">🍂 Autumn</button>
+                    <button class="theme-btn bg-secondary border-custom border rounded-lg p-3 text-sm bg-hover" data-theme="winter" tabindex="12">❄️ Winter</button>
+                </div>
+            </div>
+            
+            <!-- Language Selection -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Language</h3>
+                <select id="language-select" tabindex="13" class="w-full bg-secondary border-custom border rounded-lg p-3 text-sm">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी (Hindi)</option>
+                    <option value="es">Español (Spanish)</option>
+                    <option value="fr">Français (French)</option>
+                    <option value="de">Deutsch (German)</option>
+                    <option value="ja">日本語 (Japanese)</option>
+                    <option value="zh">中文 (Chinese)</option>
+                </select>
+            </div>
+            
+            <!-- Keyboard Shortcuts -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Keyboard Shortcuts</h3>
+                <div class="space-y-2 text-sm text-secondary">
+                    <div class="flex justify-between">
+                        <span>Settings</span>
+                        <span class="kbd">S</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>New Quote</span>
+                        <span class="kbd">Space / N</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Share</span>
+                        <span class="kbd">C</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Back</span>
+                        <span class="kbd">Esc / B</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Categories 1-9</span>
+                        <span class="kbd">1-9</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Device Info -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Device Info</h3>
+                <div class="text-sm text-secondary space-y-1">
+                    <p id="device-type">Type: Loading...</p>
+                    <p id="device-os">OS: Loading...</p>
+                    <p id="device-browser">Browser: Loading...</p>
+                </div>
+            </div>
+            
+            <!-- Easter Egg Hint -->
+            <div class="text-xs text-secondary text-center mt-8 opacity-50">
+                Psst... Try typing "rainbow", "matrix", or "retro" 🤫
+            </div>
+        </div>
+    </div>
 
     <!-- Categories Section -->
     <section id="categories" class="min-h-screen flex items-center justify-center px-4 py-12 fade-enter">
@@ -86,63 +431,63 @@
             <!-- Header -->
             <div class="text-center mb-16">
                 <div class="inline-flex items-center gap-2 mb-4">
-                    <i class="fas fa-sparkles text-blue-400 text-2xl"></i>
-                    <h1 class="text-5xl font-bold tracking-tight">Quote Galaxy</h1>
+                    <i class="fas fa-sparkles accent-color text-2xl"></i>
+                    <h1 class="text-5xl font-bold tracking-tight" data-i18n="title">Quote Galaxy</h1>
                 </div>
-                <p class="text-gray-400 text-lg">Explore wisdom from around the world</p>
+                <p class="text-secondary text-lg" data-i18n="subtitle">Explore wisdom from around the world</p>
             </div>
 
             <!-- Category Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" role="list">
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="all">
-                    <i class="fas fa-infinity text-2xl mb-2 text-blue-400"></i>
-                    <p class="text-sm font-medium">All Quotes</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="all" tabindex="14" role="listitem">
+                    <i class="fas fa-infinity text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-all">All Quotes</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="life">
-                    <i class="fas fa-seedling text-2xl mb-2 text-green-400"></i>
-                    <p class="text-sm font-medium">Life</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="life" tabindex="15" role="listitem">
+                    <i class="fas fa-seedling text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-life">Life</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="love">
-                    <i class="fas fa-heart text-2xl mb-2 text-red-400"></i>
-                    <p class="text-sm font-medium">Love</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="love" tabindex="16" role="listitem">
+                    <i class="fas fa-heart text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-love">Love</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="success">
-                    <i class="fas fa-trophy text-2xl mb-2 text-yellow-400"></i>
-                    <p class="text-sm font-medium">Success</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="success" tabindex="17" role="listitem">
+                    <i class="fas fa-trophy text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-success">Success</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="inspire">
-                    <i class="fas fa-lightbulb text-2xl mb-2 text-purple-400"></i>
-                    <p class="text-sm font-medium">Inspiration</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="inspire" tabindex="18" role="listitem">
+                    <i class="fas fa-lightbulb text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-inspire">Inspiration</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="wisdom">
-                    <i class="fas fa-brain text-2xl mb-2 text-indigo-400"></i>
-                    <p class="text-sm font-medium">Wisdom</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="wisdom" tabindex="19" role="listitem">
+                    <i class="fas fa-brain text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-wisdom">Wisdom</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="time">
-                    <i class="fas fa-clock text-2xl mb-2 text-cyan-400"></i>
-                    <p class="text-sm font-medium">Time</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="time" tabindex="20" role="listitem">
+                    <i class="fas fa-clock text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-time">Time</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="change">
-                    <i class="fas fa-rotate text-2xl mb-2 text-orange-400"></i>
-                    <p class="text-sm font-medium">Change</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="change" tabindex="21" role="listitem">
+                    <i class="fas fa-rotate text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-change">Change</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="mind">
-                    <i class="fas fa-bullseye text-2xl mb-2 text-pink-400"></i>
-                    <p class="text-sm font-medium">Mind</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="mind" tabindex="22" role="listitem">
+                    <i class="fas fa-bullseye text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-mind">Mind</p>
                 </button>
                 
-                <button class="category-btn category-badge group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-4 transition-all duration-300" data-category="dream">
-                    <i class="fas fa-cloud text-2xl mb-2 text-violet-400"></i>
-                    <p class="text-sm font-medium">Dreams</p>
+                <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="dream" tabindex="23" role="listitem">
+                    <i class="fas fa-cloud text-2xl mb-2 accent-color"></i>
+                    <p class="text-sm font-medium" data-i18n="cat-dream">Dreams</p>
                 </button>
                 
             </div>
@@ -155,34 +500,34 @@
         <div class="max-w-3xl w-full">
             
             <!-- Back Button -->
-            <button id="back-btn" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8">
+            <button id="back-btn" tabindex="24" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
                 <i class="fas fa-arrow-left"></i>
-                <span class="text-sm font-medium">Back to categories</span>
+                <span class="text-sm font-medium" data-i18n="back">Back to categories</span>
             </button>
 
             <!-- Quote Card -->
             <div id="quote-container" class="quote-reveal">
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12">
+                <div class="bg-secondary border border-custom rounded-2xl p-8 md:p-12">
                     
-                    <i class="fas fa-quote-left text-3xl text-white/20 mb-6"></i>
+                    <i class="fas fa-quote-left text-3xl opacity-20 mb-6"></i>
                     
                     <p id="quote-text" class="text-2xl md:text-3xl font-normal leading-relaxed mb-6">
                         Loading quote...
                     </p>
                     
-                    <p id="quote-author" class="text-blue-400 font-medium text-lg mb-8">
+                    <p id="quote-author" class="accent-color font-medium text-lg mb-8">
                         — Author
                     </p>
                     
                     <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-3">
-                        <button id="new-quote-btn" class="flex-1 min-w-[140px] bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-6 py-3 font-medium transition-colors">
+                        <button id="new-quote-btn" tabindex="25" class="flex-1 min-w-[140px] bg-secondary bg-hover border border-custom rounded-lg px-6 py-3 font-medium">
                             <i class="fas fa-rotate-right mr-2"></i>
-                            New Quote
+                            <span data-i18n="new-quote">New Quote</span>
                         </button>
-                        <button id="share-btn" class="flex-1 min-w-[140px] bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-lg px-6 py-3 font-medium transition-colors">
+                        <button id="share-btn" tabindex="26" class="flex-1 min-w-[140px] accent-bg accent-bg:hover border border-custom rounded-lg px-6 py-3 font-medium">
                             <i class="fas fa-share-nodes mr-2"></i>
-                            Share
+                            <span data-i18n="share">Share</span>
                         </button>
                     </div>
                     
@@ -191,7 +536,7 @@
 
             <!-- Status Message -->
             <div class="flex justify-center mt-6">
-                <div id="status-message" class="status-badge inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-400">
+                <div id="status-message" class="status-badge inline-flex items-center gap-2 bg-secondary border border-custom rounded-full px-4 py-2 text-sm text-secondary">
                 </div>
             </div>
             
