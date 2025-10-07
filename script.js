@@ -35,9 +35,6 @@ const categoryKeywords = {
 // LOCAL STORAGE FUNCTIONS
 // ============================================
 
-/**
- * Save quotes to localStorage for offline access
- */
 function saveQuotesToCache(quotes) {
     try {
         localStorage.setItem('allQuotes', JSON.stringify(quotes));
@@ -46,9 +43,6 @@ function saveQuotesToCache(quotes) {
     }
 }
 
-/**
- * Get cached quotes from localStorage
- */
 function getCachedQuotes() {
     try {
         const cached = localStorage.getItem('allQuotes');
@@ -58,9 +52,6 @@ function getCachedQuotes() {
     }
 }
 
-/**
- * Save shown quote IDs to prevent repeats
- */
 function saveShownQuotes() {
     try {
         localStorage.setItem('shownQuotes_' + currentCategory, JSON.stringify(shownQuoteIds));
@@ -69,9 +60,6 @@ function saveShownQuotes() {
     }
 }
 
-/**
- * Load shown quote IDs for current category
- */
 function loadShownQuotes() {
     try {
         const shown = localStorage.getItem('shownQuotes_' + currentCategory);
@@ -85,20 +73,13 @@ function loadShownQuotes() {
 // QUOTE FETCHING FUNCTIONS
 // ============================================
 
-/**
- * Fetch all quotes from DummyJSON API
- * DummyJSON provides 1454 quotes completely free!
- */
 async function fetchAllQuotes() {
     try {
         quoteText.textContent = 'Loading quotes...';
         quoteAuthor.textContent = '';
-        statusMessage.textContent = '';
+        statusMessage.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
         
-        // DummyJSON endpoint - get all quotes at once
-        // limit=0 returns ALL available quotes (1454 quotes!)
         const apiUrl = 'https://dummyjson.com/quotes?limit=0';
-        
         const response = await fetch(apiUrl);
         
         if (!response.ok) {
@@ -108,138 +89,95 @@ async function fetchAllQuotes() {
         const data = await response.json();
         allQuotes = data.quotes;
         
-        // Save to cache for offline use
         saveQuotesToCache(allQuotes);
-        
-        // Show a quote from selected category
         showQuoteFromCategory();
         
     } catch (error) {
         console.log('Fetch error:', error);
-        // Try to load from cache
         loadCachedQuotes();
     }
 }
 
-/**
- * Load quotes from cache when offline
- */
 function loadCachedQuotes() {
     const cached = getCachedQuotes();
     
     if (cached.length > 0) {
         allQuotes = cached;
         showQuoteFromCategory();
-        statusMessage.textContent = '📱 Showing cached quotes (offline mode)';
+        statusMessage.innerHTML = '<i class="fas fa-wifi-slash mr-2"></i>Offline mode';
     } else {
         quoteText.textContent = 'Unable to load quotes. Please check your internet connection.';
         quoteAuthor.textContent = '';
-        statusMessage.textContent = '❌ No cached quotes available';
+        statusMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>No cached quotes';
     }
 }
 
-/**
- * Check if quote matches any keyword in category
- */
 function quoteMatchesCategory(quote, category) {
     if (category === 'all') return true;
     
     const keywords = categoryKeywords[category] || [category];
     const quoteText = quote.quote.toLowerCase();
     
-    // Check if any keyword is in the quote
     return keywords.some(keyword => quoteText.includes(keyword.toLowerCase()));
 }
 
-/**
- * Filter and show a quote based on selected category
- */
 function showQuoteFromCategory() {
     let filteredQuotes;
     
-    // Filter quotes by category keyword
     if (currentCategory === 'all') {
         filteredQuotes = allQuotes;
     } else {
-        // Search for category keywords in quote text
         filteredQuotes = allQuotes.filter(q => quoteMatchesCategory(q, currentCategory));
         
-        // If less than 10 matches, show all quotes to ensure variety
         if (filteredQuotes.length < 10) {
             filteredQuotes = allQuotes;
-            statusMessage.textContent = '💫 Showing all quotes for better variety';
+            statusMessage.innerHTML = '<i class="fas fa-sparkles mr-2"></i>Showing all quotes for variety';
         }
     }
     
-    // Filter out quotes we've already shown
     const availableQuotes = filteredQuotes.filter(q => !shownQuoteIds.includes(q.id));
     
-    // If we've shown all quotes, reset
     if (availableQuotes.length === 0) {
         shownQuoteIds = [];
         saveShownQuotes();
         return showQuoteFromCategory();
     }
     
-    // Pick a random quote
     const randomIndex = Math.floor(Math.random() * availableQuotes.length);
     const selectedQuote = availableQuotes[randomIndex];
     
-    // Mark as shown
     shownQuoteIds.push(selectedQuote.id);
     saveShownQuotes();
     
-    // Display the quote
     displayQuote(selectedQuote);
 }
 
-/**
- * Display quote with fade-in animation
- */
 function displayQuote(quote) {
-    // Remove animation
-    quoteContainer.classList.remove('fade-in');
-    
-    // Trigger reflow
+    quoteContainer.classList.remove('quote-reveal');
     void quoteContainer.offsetWidth;
+    quoteContainer.classList.add('quote-reveal');
     
-    // Add animation
-    quoteContainer.classList.add('fade-in');
-    
-    // Update text
-    quoteText.textContent = `"${quote.quote}"`;
+    quoteText.textContent = quote.quote;
     quoteAuthor.textContent = `— ${quote.author}`;
     
-    // Update status
-    const totalInCategory = currentCategory === 'all' ? allQuotes.length : 
-        allQuotes.filter(q => quoteMatchesCategory(q, currentCategory)).length;
-    
-    statusMessage.textContent = `✨ ${shownQuoteIds.length} quotes viewed`;
+    statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} quotes viewed`;
 }
 
 // ============================================
 // USER INTERFACE FUNCTIONS
 // ============================================
 
-/**
- * Show quote section, hide categories
- */
 function showQuoteSection() {
     categoriesSection.classList.add('hidden');
     quoteSection.classList.remove('hidden');
+    quoteSection.classList.add('fade-enter');
 }
 
-/**
- * Show categories, hide quotes
- */
 function showCategoriesSection() {
     quoteSection.classList.add('hidden');
     categoriesSection.classList.remove('hidden');
 }
 
-/**
- * Share quote via Web Share API or clipboard
- */
 function shareQuote() {
     const quote = quoteText.textContent;
     const author = quoteAuthor.textContent;
@@ -252,13 +190,13 @@ function shareQuote() {
         }).catch(err => console.log('Share cancelled'));
     } else {
         navigator.clipboard.writeText(shareText).then(() => {
-            const tempStatus = statusMessage.textContent;
-            statusMessage.textContent = '📋 Quote copied to clipboard!';
+            const tempStatus = statusMessage.innerHTML;
+            statusMessage.innerHTML = '<i class="fas fa-check mr-2"></i>Copied to clipboard!';
             setTimeout(() => {
-                statusMessage.textContent = tempStatus;
+                statusMessage.innerHTML = tempStatus;
             }, 2000);
         }).catch(() => {
-            statusMessage.textContent = '❌ Could not copy quote';
+            statusMessage.innerHTML = '<i class="fas fa-times mr-2"></i>Could not copy';
         });
     }
 }
@@ -267,17 +205,12 @@ function shareQuote() {
 // EVENT LISTENERS
 // ============================================
 
-/**
- * Category button clicks
- */
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
         currentCategory = button.getAttribute('data-category');
         loadShownQuotes();
         showQuoteSection();
         
-        // If quotes already loaded, show one
-        // Otherwise fetch from API
         if (allQuotes.length > 0) {
             showQuoteFromCategory();
         } else {
@@ -286,16 +219,10 @@ categoryButtons.forEach(button => {
     });
 });
 
-/**
- * Back button
- */
 backBtn.addEventListener('click', () => {
     showCategoriesSection();
 });
 
-/**
- * New quote button
- */
 newQuoteBtn.addEventListener('click', () => {
     if (allQuotes.length > 0) {
         showQuoteFromCategory();
@@ -304,9 +231,6 @@ newQuoteBtn.addEventListener('click', () => {
     }
 });
 
-/**
- * Share button
- */
 shareBtn.addEventListener('click', () => {
     shareQuote();
 });
@@ -314,9 +238,8 @@ shareBtn.addEventListener('click', () => {
 // ============================================
 // INITIALIZATION
 // ============================================
-console.log('✨ Quote Galaxy initialized with DummyJSON API!');
+console.log('✨ Quote Galaxy initialized!');
 
-// Pre-load quotes from cache on page load for faster experience
 const cached = getCachedQuotes();
 if (cached.length > 0) {
     allQuotes = cached;
