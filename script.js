@@ -26,7 +26,8 @@ const translations = {
         copied: 'Copied to clipboard!',
         viewed: 'quotes viewed',
         reading: 'Reading aloud...',
-        stopped: 'Stopped'
+        stopped: 'Stopped',
+        translating: 'Translating...'
     },
     hi: {
         title: 'कोट गैलेक्सी',
@@ -51,7 +52,8 @@ const translations = {
         copied: 'क्लिपबोर्ड पर कॉपी किया गया!',
         viewed: 'उद्धरण देखे गए',
         reading: 'पढ़ रहे हैं...',
-        stopped: 'रुका'
+        stopped: 'रुका',
+        translating: 'अनुवाद हो रहा है...'
     },
     es: {
         title: 'Quote Galaxy',
@@ -76,7 +78,8 @@ const translations = {
         copied: '¡Copiado al portapapeles!',
         viewed: 'citas vistas',
         reading: 'Leyendo en voz alta...',
-        stopped: 'Detenido'
+        stopped: 'Detenido',
+        translating: 'Traduciendo...'
     },
     fr: {
         title: 'Quote Galaxy',
@@ -101,7 +104,8 @@ const translations = {
         copied: 'Copié dans le presse-papiers!',
         viewed: 'citations consultées',
         reading: 'Lecture à haute voix...',
-        stopped: 'Arrêté'
+        stopped: 'Arrêté',
+        translating: 'Traduction...'
     },
     de: {
         title: 'Quote Galaxy',
@@ -126,7 +130,8 @@ const translations = {
         copied: 'In Zwischenablage kopiert!',
         viewed: 'Zitate angesehen',
         reading: 'Vorlesen...',
-        stopped: 'Gestoppt'
+        stopped: 'Gestoppt',
+        translating: 'Übersetzen...'
     },
     ja: {
         title: 'Quote Galaxy',
@@ -151,7 +156,8 @@ const translations = {
         copied: 'クリップボードにコピーしました！',
         viewed: '引用を見た',
         reading: '読み上げ中...',
-        stopped: '停止'
+        stopped: '停止',
+        translating: '翻訳中...'
     },
     zh: {
         title: 'Quote Galaxy',
@@ -176,8 +182,20 @@ const translations = {
         copied: '已复制到剪贴板！',
         viewed: '已查看引语',
         reading: '朗读中...',
-        stopped: '已停止'
+        stopped: '已停止',
+        translating: '翻译中...'
     }
+};
+
+// Language codes for translation API
+const languageCodes = {
+    'en': 'en',
+    'hi': 'hi',
+    'es': 'es',
+    'fr': 'fr',
+    'de': 'de',
+    'ja': 'ja',
+    'zh': 'zh'
 };
 
 // ============================================
@@ -210,6 +228,7 @@ let easterEggInput = '';
 let deferredPrompt = null;
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
+let currentQuoteData = null; // Store current quote for translation
 
 const categoryKeywords = {
     'all': [],
@@ -224,6 +243,72 @@ const categoryKeywords = {
     'dream': ['dream', 'vision', 'hope', 'aspiration', 'wish', 'desire'],
     'peace': ['peace', 'calm', 'quiet', 'tranquil', 'serene', 'still', 'silence', 'rest', 'harmony', 'balance', 'ease', 'gentle', 'soothe', 'relax']
 };
+
+// ============================================
+// TRANSLATION FUNCTIONS
+// ============================================
+
+/**
+ * Translate text using MyMemory Translation API (free, no key required)
+ */
+async function translateText(text, targetLang) {
+    // Skip translation for English
+    if (targetLang === 'en') {
+        return text;
+    }
+    
+    // Check cache first
+    const cacheKey = `translation_${text}_${targetLang}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        return cached;
+    }
+    
+    try {
+        const sourceLang = 'en';
+        const langPair = `${sourceLang}|${languageCodes[targetLang]}`;
+        const encodedText = encodeURIComponent(text);
+        
+        // MyMemory free translation API (1000 requests/day limit)
+        const apiUrl = `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`;
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        
+        if (data.responseStatus === 200 && data.responseData.translatedText) {
+            const translated = data.responseData.translatedText;
+            
+            // Cache the translation
+            try {
+                localStorage.setItem(cacheKey, translated);
+            } catch (e) {
+                console.log('Cache full, clearing old translations');
+                clearOldTranslations();
+            }
+            
+            return translated;
+        }
+        
+        // If translation fails, return original
+        return text;
+        
+    } catch (error) {
+        console.log('Translation error:', error);
+        return text; // Return original text on error
+    }
+}
+
+/**
+ * Clear old translations from localStorage when it's full
+ */
+function clearOldTranslations() {
+    const keys = Object.keys(localStorage);
+    const translationKeys = keys.filter(k => k.startsWith('translation_'));
+    
+    // Remove oldest 50% of translations
+    const toRemove = translationKeys.slice(0, Math.floor(translationKeys.length / 2));
+    toRemove.forEach(key => localStorage.removeItem(key));
+}
 
 // ============================================
 // PWA INSTALL
@@ -316,17 +401,23 @@ function loadTheme() {
 // LANGUAGE SYSTEM
 // ============================================
 
-function setLanguage(lang) {
+async function setLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('lang', lang);
     
+    // Update UI translations
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
             element.textContent = translations[lang][key];
         }
     });
+    
+    // Re-translate current quote if one is displayed
+    if (currentQuoteData && !quoteSection.classList.contains('hidden')) {
+        await displayQuote(currentQuoteData, true);
+    }
 }
 
 function detectLanguage() {
@@ -508,21 +599,35 @@ function showQuoteFromCategory() {
     displayQuote(selectedQuote);
 }
 
-function displayQuote(quote) {
+async function displayQuote(quote, isLanguageSwitch = false) {
+    // Store current quote for re-translation when language changes
+    currentQuoteData = quote;
+    
     quoteContainer.classList.remove('quote-reveal');
     void quoteContainer.offsetWidth;
     quoteContainer.classList.add('quote-reveal');
     
-    quoteText.textContent = quote.quote;
+    // Show translating status for non-English languages
+    if (currentLanguage !== 'en') {
+        statusMessage.innerHTML = '<i class="fas fa-language mr-2"></i>' + translations[currentLanguage].translating;
+    }
+    
+    // Translate quote text and author
+    const translatedQuote = await translateText(quote.quote, currentLanguage);
+    const translatedAuthor = await translateText(quote.author, currentLanguage);
+    
+    // Display translated content
+    quoteText.textContent = translatedQuote;
     
     const authorSpan = quoteAuthor.querySelector('[itemprop="name"]');
     if (authorSpan) {
-        authorSpan.textContent = quote.author;
+        authorSpan.textContent = translatedAuthor;
     }
     
     statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} ${translations[currentLanguage].viewed}`;
     
-    updateMetaTags(quote);
+    // Update meta tags with translated content
+    updateMetaTags({ quote: translatedQuote, author: translatedAuthor });
 }
 
 function updateMetaTags(quote) {
@@ -750,7 +855,7 @@ function handleURLParams() {
 // INITIALIZATION
 // ============================================
 
-console.log('✨ Quote Galaxy PWA initialized with 11 categories!');
+console.log('✨ Quote Galaxy PWA initialized with multilingual support!');
 
 loadTheme();
 
