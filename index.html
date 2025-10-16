@@ -265,6 +265,8 @@
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
         }
         
         .bg-secondary {
@@ -293,6 +295,29 @@
         
         .accent-bg:hover {
             background-color: var(--accent-hover);
+        }
+        
+        /* Zen Background Canvas */
+        #zen-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        #zen-canvas.active {
+            opacity: 1;
+        }
+        
+        /* Make sure content is above canvas */
+        section {
+            position: relative;
+            z-index: 1;
         }
         
         /* Focus styles for keyboard navigation */
@@ -396,9 +421,35 @@
         .voice-active {
             animation: voicePulse 1.5s ease-in-out infinite;
         }
+        
+        /* Journey Progress Bar */
+        .journey-progress {
+            position: relative;
+            height: 4px;
+            background-color: var(--bg-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .journey-progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Story Card Preview */
+        #story-card-preview {
+            max-width: 360px;
+            aspect-ratio: 9/16;
+            border-radius: 12px;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="min-h-screen">
+
+    <!-- Zen Background Canvas -->
+    <canvas id="zen-canvas"></canvas>
 
     <!-- Settings Button (Fixed) -->
     <button id="settings-btn" tabindex="1" class="fixed top-4 right-4 z-50 bg-secondary border-custom border rounded-lg p-3 bg-hover focus:ring-2" title="Settings (S)" aria-label="Open Settings">
@@ -413,6 +464,23 @@
                 <button id="close-settings" tabindex="2" class="text-secondary hover:text-primary" aria-label="Close Settings">
                     <i class="fas fa-times text-xl"></i>
                 </button>
+            </div>
+            
+            <!-- Zen Background Toggle -->
+            <div class="mb-6">
+                <h3 class="font-semibold mb-3">Zen Background</h3>
+                <div class="flex items-center justify-between bg-secondary border-custom border rounded-lg p-3">
+                    <span class="text-sm">Enable calming animations</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="zen-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+                <select id="zen-style" class="w-full mt-2 bg-secondary border-custom border rounded-lg p-2 text-sm">
+                    <option value="particles">Floating Particles</option>
+                    <option value="waves">Gentle Waves</option>
+                    <option value="circles">Zen Circles</option>
+                </select>
             </div>
             
             <!-- Theme Selection -->
@@ -474,6 +542,10 @@
                         <span class="kbd">V</span>
                     </div>
                     <div class="flex justify-between">
+                        <span>Story Card</span>
+                        <span class="kbd">I</span>
+                    </div>
+                    <div class="flex justify-between">
                         <span>Back</span>
                         <span class="kbd">Esc / B</span>
                     </div>
@@ -509,9 +581,9 @@
         </div>
     </div>
 
-    <!-- Categories Section -->
-    <section id="categories" class="min-h-screen flex items-center justify-center px-4 py-12 fade-enter">
-        <div class="max-w-5xl w-full">
+    <!-- Main Menu -->
+    <section id="main-menu" class="min-h-screen flex items-center justify-center px-4 py-12 fade-enter">
+        <div class="max-w-4xl w-full">
             
             <!-- Header -->
             <div class="text-center mb-16">
@@ -520,6 +592,44 @@
                     <h1 class="text-5xl font-bold tracking-tight" data-i18n="title">Quote Galaxy</h1>
                 </div>
                 <p class="text-secondary text-lg" data-i18n="subtitle">Explore wisdom from around the world</p>
+            </div>
+
+            <!-- Main Options -->
+            <div class="grid md:grid-cols-2 gap-4">
+                
+                <!-- Browse Categories -->
+                <button id="browse-categories-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
+                    <i class="fas fa-compass text-4xl mb-4 accent-color"></i>
+                    <h2 class="text-2xl font-bold mb-2">Browse Categories</h2>
+                    <p class="text-secondary">Explore quotes by topic</p>
+                </button>
+                
+                <!-- Quote Journeys -->
+                <button id="browse-journeys-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
+                    <i class="fas fa-route text-4xl mb-4 accent-color"></i>
+                    <h2 class="text-2xl font-bold mb-2">Quote Journeys</h2>
+                    <p class="text-secondary">Guided quote experiences</p>
+                </button>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="max-w-5xl w-full">
+            
+            <!-- Back to Menu -->
+            <button id="back-to-menu-from-categories" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
+                <i class="fas fa-arrow-left"></i>
+                <span class="text-sm font-medium">Back to menu</span>
+            </button>
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Browse by Category</h2>
+                <p class="text-secondary">Choose a topic that speaks to you</p>
             </div>
 
             <!-- Category Grid -->
@@ -575,10 +685,69 @@
                     <p class="text-sm font-medium" data-i18n="cat-dream">Dreams</p>
                 </button>
                 
-                <!-- NEW PEACE CATEGORY -->
                 <button class="category-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-category="peace" tabindex="24" role="listitem">
                     <i class="fas fa-dove text-2xl mb-2 accent-color"></i>
                     <p class="text-sm font-medium" data-i18n="cat-peace">Peace</p>
+                </button>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Journeys Section -->
+    <section id="journeys" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="max-w-4xl w-full">
+            
+            <!-- Back to Menu -->
+            <button id="back-to-menu-from-journeys" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
+                <i class="fas fa-arrow-left"></i>
+                <span class="text-sm font-medium">Back to menu</span>
+            </button>
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Quote Journeys</h2>
+                <p class="text-secondary">Curated paths of wisdom</p>
+            </div>
+
+            <!-- Journeys Grid -->
+            <div class="grid md:grid-cols-2 gap-4">
+                
+                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="morning">
+                    <div class="flex items-start justify-between mb-3">
+                        <i class="fas fa-sun text-3xl accent-color"></i>
+                        <span class="text-sm text-secondary">5 quotes</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Morning Focus</h3>
+                    <p class="text-sm text-secondary">Start your day with clarity and purpose</p>
+                </button>
+                
+                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="night">
+                    <div class="flex items-start justify-between mb-3">
+                        <i class="fas fa-moon text-3xl accent-color"></i>
+                        <span class="text-sm text-secondary">5 quotes</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Evening Peace</h3>
+                    <p class="text-sm text-secondary">Wind down with calm and reflection</p>
+                </button>
+                
+                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="overcome">
+                    <div class="flex items-start justify-between mb-3">
+                        <i class="fas fa-mountain text-3xl accent-color"></i>
+                        <span class="text-sm text-secondary">5 quotes</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Overcoming Challenges</h3>
+                    <p class="text-sm text-secondary">Find strength in difficult moments</p>
+                </button>
+                
+                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="gratitude">
+                    <div class="flex items-start justify-between mb-3">
+                        <i class="fas fa-heart text-3xl accent-color"></i>
+                        <span class="text-sm text-secondary">5 quotes</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Gratitude Flow</h3>
+                    <p class="text-sm text-secondary">Appreciate life's simple blessings</p>
                 </button>
                 
             </div>
@@ -593,8 +762,19 @@
             <!-- Back Button -->
             <button id="back-btn" tabindex="25" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
                 <i class="fas fa-arrow-left"></i>
-                <span class="text-sm font-medium" data-i18n="back">Back to categories</span>
+                <span class="text-sm font-medium" data-i18n="back">Back</span>
             </button>
+
+            <!-- Journey Progress (shown only in journey mode) -->
+            <div id="journey-progress-container" class="hidden mb-6">
+                <div class="flex items-center justify-between mb-2 text-sm text-secondary">
+                    <span id="journey-title">Journey</span>
+                    <span id="journey-step">1 / 5</span>
+                </div>
+                <div class="journey-progress">
+                    <div id="journey-progress-bar" class="journey-progress-bar" style="width: 20%"></div>
+                </div>
+            </div>
 
             <!-- Quote Card with Schema.org markup -->
             <div id="quote-container" class="quote-reveal">
@@ -614,15 +794,19 @@
                     
                     <!-- Action Buttons -->
                     <div class="flex flex-wrap gap-3">
-                        <button id="new-quote-btn" tabindex="26" class="flex-1 min-w-[140px] bg-secondary bg-hover border border-custom rounded-lg px-6 py-3 font-medium">
+                        <button id="new-quote-btn" tabindex="26" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
                             <i class="fas fa-rotate-right mr-2"></i>
-                            <span data-i18n="new-quote">New Quote</span>
+                            <span data-i18n="new-quote">Next</span>
                         </button>
-                        <button id="voice-btn" tabindex="27" class="flex-1 min-w-[140px] bg-secondary bg-hover border border-custom rounded-lg px-6 py-3 font-medium" title="Read aloud (V)">
+                        <button id="voice-btn" tabindex="27" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Read aloud (V)">
                             <i class="fas fa-volume-high mr-2"></i>
                             <span data-i18n="voice">Listen</span>
                         </button>
-                        <button id="share-btn" tabindex="28" class="flex-1 min-w-[140px] accent-bg accent-bg:hover border border-custom rounded-lg px-6 py-3 font-medium">
+                        <button id="story-card-btn" tabindex="28" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Create story card (I)">
+                            <i class="fas fa-image mr-2"></i>
+                            <span>Story</span>
+                        </button>
+                        <button id="share-btn" tabindex="29" class="flex-1 min-w-[120px] accent-bg accent-bg:hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
                             <i class="fas fa-share-nodes mr-2"></i>
                             <span data-i18n="share">Share</span>
                         </button>
@@ -639,6 +823,29 @@
             
         </div>
     </section>
+
+    <!-- Story Card Modal -->
+    <div id="story-card-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div class="bg-secondary border border-custom rounded-2xl p-6 max-w-md w-full">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold">Your Story Card</h3>
+                <button id="close-story-modal" class="text-secondary hover:text-primary">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Canvas Preview -->
+            <div class="mb-4 flex justify-center">
+                <canvas id="story-card-canvas" width="1080" height="1920" style="max-width: 100%; height: auto; border-radius: 12px;"></canvas>
+            </div>
+            
+            <!-- Download Button -->
+            <button id="download-story-btn" class="w-full accent-bg text-white rounded-lg py-3 font-medium">
+                <i class="fas fa-download mr-2"></i>
+                Download Story Card
+            </button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
