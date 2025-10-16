@@ -17,8 +17,8 @@ const translations = {
         'cat-mind': 'Mind',
         'cat-dream': 'Dreams',
         'cat-peace': 'Peace',
-        back: 'Back to categories',
-        'new-quote': 'New Quote',
+        back: 'Back',
+        'new-quote': 'Next',
         share: 'Share',
         voice: 'Listen',
         loading: 'Loading...',
@@ -27,7 +27,8 @@ const translations = {
         viewed: 'quotes viewed',
         reading: 'Reading aloud...',
         stopped: 'Stopped',
-        translating: 'Translating...'
+        translating: 'Translating...',
+        journeyComplete: 'Journey complete!'
     },
     hi: {
         title: 'कोट गैलेक्सी',
@@ -43,22 +44,23 @@ const translations = {
         'cat-mind': 'मन',
         'cat-dream': 'सपने',
         'cat-peace': 'शांति',
-        back: 'श्रेणियों पर वापस जाएं',
-        'new-quote': 'नया उद्धरण',
+        back: 'वापस',
+        'new-quote': 'अगला',
         share: 'साझा करें',
         voice: 'सुनें',
         loading: 'लोड हो रहा है...',
         offline: 'ऑफ़लाइन मोड',
-        copied: 'क्लिपबोर्ड पर कॉपी किया गया!',
-        viewed: 'उद्धरण देखे गए',
+        copied: 'कॉपी किया गया!',
+        viewed: 'उद्धरण देखे',
         reading: 'पढ़ रहे हैं...',
         stopped: 'रुका',
-        translating: 'अनुवाद हो रहा है...'
+        translating: 'अनुवाद...',
+        journeyComplete: 'यात्रा पूर्ण!'
     },
     es: {
         title: 'Quote Galaxy',
         subtitle: 'Explora la sabiduría de todo el mundo',
-        'cat-all': 'Todas las citas',
+        'cat-all': 'Todas',
         'cat-life': 'Vida',
         'cat-love': 'Amor',
         'cat-success': 'Éxito',
@@ -69,22 +71,23 @@ const translations = {
         'cat-mind': 'Mente',
         'cat-dream': 'Sueños',
         'cat-peace': 'Paz',
-        back: 'Volver a categorías',
-        'new-quote': 'Nueva cita',
+        back: 'Atrás',
+        'new-quote': 'Siguiente',
         share: 'Compartir',
         voice: 'Escuchar',
         loading: 'Cargando...',
-        offline: 'Modo sin conexión',
-        copied: '¡Copiado al portapapeles!',
+        offline: 'Sin conexión',
+        copied: '¡Copiado!',
         viewed: 'citas vistas',
-        reading: 'Leyendo en voz alta...',
+        reading: 'Leyendo...',
         stopped: 'Detenido',
-        translating: 'Traduciendo...'
+        translating: 'Traduciendo...',
+        journeyComplete: '¡Viaje completo!'
     },
     fr: {
         title: 'Quote Galaxy',
-        subtitle: 'Explorez la sagesse du monde entier',
-        'cat-all': 'Toutes les citations',
+        subtitle: 'Explorez la sagesse du monde',
+        'cat-all': 'Toutes',
         'cat-life': 'Vie',
         'cat-love': 'Amour',
         'cat-success': 'Succès',
@@ -95,22 +98,23 @@ const translations = {
         'cat-mind': 'Esprit',
         'cat-dream': 'Rêves',
         'cat-peace': 'Paix',
-        back: 'Retour aux catégories',
-        'new-quote': 'Nouvelle citation',
+        back: 'Retour',
+        'new-quote': 'Suivant',
         share: 'Partager',
         voice: 'Écouter',
         loading: 'Chargement...',
-        offline: 'Mode hors ligne',
-        copied: 'Copié dans le presse-papiers!',
-        viewed: 'citations consultées',
-        reading: 'Lecture à haute voix...',
+        offline: 'Hors ligne',
+        copied: 'Copié!',
+        viewed: 'citations',
+        reading: 'Lecture...',
         stopped: 'Arrêté',
-        translating: 'Traduction...'
+        translating: 'Traduction...',
+        journeyComplete: 'Voyage terminé!'
     },
     de: {
         title: 'Quote Galaxy',
-        subtitle: 'Entdecke Weisheit aus aller Welt',
-        'cat-all': 'Alle Zitate',
+        subtitle: 'Entdecke Weisheit',
+        'cat-all': 'Alle',
         'cat-life': 'Leben',
         'cat-love': 'Liebe',
         'cat-success': 'Erfolg',
@@ -121,48 +125,50 @@ const translations = {
         'cat-mind': 'Geist',
         'cat-dream': 'Träume',
         'cat-peace': 'Frieden',
-        back: 'Zurück zu Kategorien',
-        'new-quote': 'Neues Zitat',
+        back: 'Zurück',
+        'new-quote': 'Weiter',
         share: 'Teilen',
         voice: 'Anhören',
         loading: 'Laden...',
-        offline: 'Offline-Modus',
-        copied: 'In Zwischenablage kopiert!',
-        viewed: 'Zitate angesehen',
+        offline: 'Offline',
+        copied: 'Kopiert!',
+        viewed: 'Zitate',
         reading: 'Vorlesen...',
         stopped: 'Gestoppt',
-        translating: 'Übersetzen...'
+        translating: 'Übersetzen...',
+        journeyComplete: 'Reise abgeschlossen!'
     },
     ja: {
         title: 'Quote Galaxy',
-        subtitle: '世界中の知恵を探求する',
-        'cat-all': 'すべての引用',
+        subtitle: '世界中の知恵を探求',
+        'cat-all': 'すべて',
         'cat-life': '人生',
         'cat-love': '愛',
         'cat-success': '成功',
-        'cat-inspire': 'インスピレーション',
+        'cat-inspire': '感動',
         'cat-wisdom': '知恵',
         'cat-time': '時間',
         'cat-change': '変化',
         'cat-mind': '心',
         'cat-dream': '夢',
         'cat-peace': '平和',
-        back: 'カテゴリーに戻る',
-        'new-quote': '新しい引用',
+        back: '戻る',
+        'new-quote': '次へ',
         share: '共有',
         voice: '聞く',
         loading: '読み込み中...',
-        offline: 'オフラインモード',
-        copied: 'クリップボードにコピーしました！',
-        viewed: '引用を見た',
+        offline: 'オフライン',
+        copied: 'コピー済み!',
+        viewed: '引用',
         reading: '読み上げ中...',
         stopped: '停止',
-        translating: '翻訳中...'
+        translating: '翻訳中...',
+        journeyComplete: '旅完了！'
     },
     zh: {
         title: 'Quote Galaxy',
-        subtitle: '探索来自世界各地的智慧',
-        'cat-all': '所有引语',
+        subtitle: '探索智慧',
+        'cat-all': '全部',
         'cat-life': '生活',
         'cat-love': '爱',
         'cat-success': '成功',
@@ -173,36 +179,32 @@ const translations = {
         'cat-mind': '思维',
         'cat-dream': '梦想',
         'cat-peace': '和平',
-        back: '返回类别',
-        'new-quote': '新引语',
+        back: '返回',
+        'new-quote': '下一个',
         share: '分享',
         voice: '听',
         loading: '加载中...',
-        offline: '离线模式',
-        copied: '已复制到剪贴板！',
-        viewed: '已查看引语',
+        offline: '离线',
+        copied: '已复制！',
+        viewed: '引语',
         reading: '朗读中...',
         stopped: '已停止',
-        translating: '翻译中...'
+        translating: '翻译中...',
+        journeyComplete: '旅程完成！'
     }
 };
 
-// Language codes for translation API
 const languageCodes = {
-    'en': 'en',
-    'hi': 'hi',
-    'es': 'es',
-    'fr': 'fr',
-    'de': 'de',
-    'ja': 'ja',
-    'zh': 'zh'
+    'en': 'en', 'hi': 'hi', 'es': 'es', 'fr': 'fr', 'de': 'de', 'ja': 'ja', 'zh': 'zh'
 };
 
 // ============================================
 // VARIABLE DECLARATIONS
 // ============================================
 
+const mainMenu = document.getElementById('main-menu');
 const categoriesSection = document.getElementById('categories');
+const journeysSection = document.getElementById('journeys');
 const quoteSection = document.getElementById('quote-section');
 const quoteText = document.getElementById('quote-text');
 const quoteAuthor = document.getElementById('quote-author');
@@ -212,15 +214,35 @@ const backBtn = document.getElementById('back-btn');
 const newQuoteBtn = document.getElementById('new-quote-btn');
 const shareBtn = document.getElementById('share-btn');
 const voiceBtn = document.getElementById('voice-btn');
+const storyCardBtn = document.getElementById('story-card-btn');
 const categoryButtons = document.querySelectorAll('.category-btn');
+const journeyCards = document.querySelectorAll('.journey-card');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsPanel = document.getElementById('settings-panel');
 const closeSettingsBtn = document.getElementById('close-settings');
 const themeButtons = document.querySelectorAll('.theme-btn');
 const languageSelect = document.getElementById('language-select');
 const installBtn = document.getElementById('install-btn');
+const browseCategoriesBtn = document.getElementById('browse-categories-btn');
+const browseJourneysBtn = document.getElementById('browse-journeys-btn');
+const backToMenuFromCategories = document.getElementById('back-to-menu-from-categories');
+const backToMenuFromJourneys = document.getElementById('back-to-menu-from-journeys');
+const journeyProgressContainer = document.getElementById('journey-progress-container');
+const journeyTitle = document.getElementById('journey-title');
+const journeyStep = document.getElementById('journey-step');
+const journeyProgressBar = document.getElementById('journey-progress-bar');
+const storyCardModal = document.getElementById('story-card-modal');
+const closeStoryModal = document.getElementById('close-story-modal');
+const storyCardCanvas = document.getElementById('story-card-canvas');
+const downloadStoryBtn = document.getElementById('download-story-btn');
+const zenCanvas = document.getElementById('zen-canvas');
+const zenToggle = document.getElementById('zen-toggle');
+const zenStyle = document.getElementById('zen-style');
 
 let currentCategory = '';
+let currentJourney = null;
+let journeyQuotes = [];
+let journeyCurrentIndex = 0;
 let allQuotes = [];
 let shownQuoteIds = [];
 let currentLanguage = 'en';
@@ -228,7 +250,10 @@ let easterEggInput = '';
 let deferredPrompt = null;
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
-let currentQuoteData = null; // Store current quote for translation
+let currentQuoteData = null;
+let zenAnimationId = null;
+let zenEnabled = false;
+let zenCurrentStyle = 'particles';
 
 const categoryKeywords = {
     'all': [],
@@ -244,32 +269,335 @@ const categoryKeywords = {
     'peace': ['peace', 'calm', 'quiet', 'tranquil', 'serene', 'still', 'silence', 'rest', 'harmony', 'balance', 'ease', 'gentle', 'soothe', 'relax']
 };
 
+// Journey definitions
+const journeyDefinitions = {
+    morning: {
+        title: 'Morning Focus',
+        keywords: ['inspire', 'success', 'wisdom', 'mind', 'change']
+    },
+    night: {
+        title: 'Evening Peace',
+        keywords: ['peace', 'wisdom', 'time', 'love', 'mind']
+    },
+    overcome: {
+        title: 'Overcoming Challenges',
+        keywords: ['success', 'change', 'inspire', 'wisdom', 'life']
+    },
+    gratitude: {
+        title: 'Gratitude Flow',
+        keywords: ['love', 'peace', 'life', 'wisdom', 'dream']
+    }
+};
+
+// ============================================
+// ZEN BACKGROUND SYSTEM
+// ============================================
+
+class ZenBackground {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+        this.time = 0;
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+    }
+    
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+    
+    initParticles() {
+        this.particles = [];
+        const count = Math.floor((this.canvas.width * this.canvas.height) / 15000);
+        for (let i = 0; i < count; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.5 + 0.2
+            });
+        }
+    }
+    
+    drawParticles() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        const accentColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--accent-color').trim();
+        
+        this.particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+            if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+            
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = this.hexToRgba(accentColor, p.opacity);
+            this.ctx.fill();
+        });
+    }
+    
+    drawWaves() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        const accentColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--accent-color').trim();
+        
+        for (let i = 0; i < 3; i++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, this.canvas.height / 2);
+            
+            for (let x = 0; x < this.canvas.width; x += 5) {
+                const y = Math.sin((x + this.time * (i + 1) * 0.5) * 0.01) * 50 + 
+                          this.canvas.height / 2 + i * 100;
+                this.ctx.lineTo(x, y);
+            }
+            
+            this.ctx.strokeStyle = this.hexToRgba(accentColor, 0.1 + i * 0.05);
+            this.ctx.lineWidth = 2;
+            this.ctx.stroke();
+        }
+        
+        this.time += 0.5;
+    }
+    
+    drawCircles() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        const accentColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--accent-color').trim();
+        
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        
+        for (let i = 1; i <= 5; i++) {
+            const radius = 50 + i * 80 + Math.sin(this.time * 0.01 + i) * 20;
+            
+            this.ctx.beginPath();
+            this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            this.ctx.strokeStyle = this.hexToRgba(accentColor, 0.15 - i * 0.02);
+            this.ctx.lineWidth = 2;
+            this.ctx.stroke();
+        }
+        
+        this.time += 0.5;
+    }
+    
+    hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    
+    animate(style) {
+        if (style === 'particles') {
+            this.drawParticles();
+        } else if (style === 'waves') {
+            this.drawWaves();
+        } else if (style === 'circles') {
+            this.drawCircles();
+        }
+    }
+}
+
+let zenBackground = null;
+
+function initZenBackground() {
+    if (!zenBackground) {
+        zenBackground = new ZenBackground(zenCanvas);
+        zenBackground.initParticles();
+    }
+}
+
+function startZenAnimation() {
+    if (!zenEnabled) return;
+    
+    function animate() {
+        if (!zenEnabled) {
+            cancelAnimationFrame(zenAnimationId);
+            return;
+        }
+        
+        zenBackground.animate(zenCurrentStyle);
+        zenAnimationId = requestAnimationFrame(animate);
+    }
+    
+    zenCanvas.classList.add('active');
+    animate();
+}
+
+function stopZenAnimation() {
+    zenEnabled = false;
+    if (zenAnimationId) {
+        cancelAnimationFrame(zenAnimationId);
+        zenAnimationId = null;
+    }
+    zenCanvas.classList.remove('active');
+}
+
+zenToggle.addEventListener('change', (e) => {
+    zenEnabled = e.target.checked;
+    localStorage.setItem('zenEnabled', zenEnabled);
+    
+    if (zenEnabled) {
+        initZenBackground();
+        startZenAnimation();
+    } else {
+        stopZenAnimation();
+    }
+});
+
+zenStyle.addEventListener('change', (e) => {
+    zenCurrentStyle = e.target.value;
+    localStorage.setItem('zenStyle', zenCurrentStyle);
+    
+    if (zenCurrentStyle === 'particles' && zenEnabled) {
+        zenBackground.initParticles();
+    }
+});
+
+// Load zen settings
+const savedZenEnabled = localStorage.getItem('zenEnabled') === 'true';
+const savedZenStyle = localStorage.getItem('zenStyle') || 'particles';
+zenToggle.checked = savedZenEnabled;
+zenEnabled = savedZenEnabled;
+zenStyle.value = savedZenStyle;
+zenCurrentStyle = savedZenStyle;
+
+if (zenEnabled) {
+    initZenBackground();
+    startZenAnimation();
+}
+
+// ============================================
+// STORY CARD GENERATOR
+// ============================================
+
+function generateStoryCard() {
+    const ctx = storyCardCanvas.getContext('2d');
+    const width = 1080;
+    const height = 1920;
+    
+    // Get current theme colors
+    const bgColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--bg-primary').trim();
+    const textColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--text-primary').trim();
+    const accentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent-color').trim();
+    
+    // Clear canvas
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, width, height);
+    
+    // Add subtle gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, hexToRgba(accentColor, 0.05));
+    gradient.addColorStop(1, 'transparent');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+    
+    // Get quote text and author
+    const quote = quoteText.textContent;
+    const authorName = quoteAuthor.querySelector('[itemprop="name"]')?.textContent || 'Unknown';
+    
+    // Draw quote icon
+    ctx.fillStyle = hexToRgba(accentColor, 0.3);
+    ctx.font = 'bold 120px Arial';
+    ctx.fillText('"', 100, 250);
+    
+    // Draw quote text (wrapped)
+    ctx.fillStyle = textColor;
+    ctx.font = '600 64px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    
+    const maxWidth = width - 200;
+    const lineHeight = 90;
+    const words = quote.split(' ');
+    let line = '';
+    let y = 400;
+    
+    for (let word of words) {
+        const testLine = line + word + ' ';
+        const metrics = ctx.measureText(testLine);
+        
+        if (metrics.width > maxWidth && line !== '') {
+            ctx.fillText(line, 100, y);
+            line = word + ' ';
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, 100, y);
+    
+    // Draw author
+    ctx.fillStyle = accentColor;
+    ctx.font = '500 48px Inter, sans-serif';
+    ctx.fillText('— ' + authorName, 100, y + 120);
+    
+    // Draw branding
+    ctx.fillStyle = hexToRgba(textColor, 0.5);
+    ctx.font = '400 36px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('✨ Quote Galaxy', width / 2, height - 100);
+    
+    // Show modal
+    storyCardModal.classList.remove('hidden');
+}
+
+function hexToRgba(hex, alpha) {
+    // Handle both formats: #RGB and rgba(r, g, b)
+    if (hex.startsWith('rgba')) {
+        return hex.replace(/[\d.]+\)$/g, `${alpha})`);
+    }
+    
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+    }
+    
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+storyCardBtn.addEventListener('click', generateStoryCard);
+
+closeStoryModal.addEventListener('click', () => {
+    storyCardModal.classList.add('hidden');
+});
+
+downloadStoryBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'quote-story.png';
+    link.href = storyCardCanvas.toDataURL('image/png');
+    link.click();
+});
+
 // ============================================
 // TRANSLATION FUNCTIONS
 // ============================================
 
-/**
- * Translate text using MyMemory Translation API (free, no key required)
- */
 async function translateText(text, targetLang) {
-    // Skip translation for English
-    if (targetLang === 'en') {
-        return text;
-    }
+    if (targetLang === 'en') return text;
     
-    // Check cache first
     const cacheKey = `translation_${text}_${targetLang}`;
     const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-        return cached;
-    }
+    if (cached) return cached;
     
     try {
         const sourceLang = 'en';
         const langPair = `${sourceLang}|${languageCodes[targetLang]}`;
         const encodedText = encodeURIComponent(text);
-        
-        // MyMemory free translation API (1000 requests/day limit)
         const apiUrl = `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`;
         
         const response = await fetch(apiUrl);
@@ -277,35 +605,24 @@ async function translateText(text, targetLang) {
         
         if (data.responseStatus === 200 && data.responseData.translatedText) {
             const translated = data.responseData.translatedText;
-            
-            // Cache the translation
             try {
                 localStorage.setItem(cacheKey, translated);
             } catch (e) {
-                console.log('Cache full, clearing old translations');
                 clearOldTranslations();
             }
-            
             return translated;
         }
         
-        // If translation fails, return original
         return text;
-        
     } catch (error) {
         console.log('Translation error:', error);
-        return text; // Return original text on error
+        return text;
     }
 }
 
-/**
- * Clear old translations from localStorage when it's full
- */
 function clearOldTranslations() {
     const keys = Object.keys(localStorage);
     const translationKeys = keys.filter(k => k.startsWith('translation_'));
-    
-    // Remove oldest 50% of translations
     const toRemove = translationKeys.slice(0, Math.floor(translationKeys.length / 2));
     toRemove.forEach(key => localStorage.removeItem(key));
 }
@@ -322,20 +639,15 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
-    
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-        installBtn.classList.add('hidden');
-    }
-    
+    if (outcome === 'accepted') installBtn.classList.add('hidden');
     deferredPrompt = null;
 });
 
 window.addEventListener('appinstalled', () => {
     installBtn.classList.add('hidden');
-    statusMessage.innerHTML = '<i class="fas fa-check mr-2"></i>App installed successfully!';
+    statusMessage.innerHTML = '<i class="fas fa-check mr-2"></i>App installed!';
 });
 
 // ============================================
@@ -344,15 +656,10 @@ window.addEventListener('appinstalled', () => {
 
 function detectDevice() {
     const ua = navigator.userAgent;
-    let deviceType = 'Desktop';
-    let os = 'Unknown';
-    let browser = 'Unknown';
+    let deviceType = 'Desktop', os = 'Unknown', browser = 'Unknown';
     
-    if (/mobile/i.test(ua)) {
-        deviceType = 'Mobile';
-    } else if (/tablet|ipad/i.test(ua)) {
-        deviceType = 'Tablet';
-    }
+    if (/mobile/i.test(ua)) deviceType = 'Mobile';
+    else if (/tablet|ipad/i.test(ua)) deviceType = 'Tablet';
     
     if (/windows/i.test(ua)) os = 'Windows';
     else if (/mac/i.test(ua)) os = 'macOS';
@@ -370,9 +677,7 @@ function detectDevice() {
     document.getElementById('device-os').textContent = `OS: ${os}`;
     document.getElementById('device-browser').textContent = `Browser: ${browser}`;
     
-    if (deviceType === 'Mobile') {
-        document.body.classList.add('mobile-layout');
-    }
+    if (deviceType === 'Mobile') document.body.classList.add('mobile-layout');
     
     return { deviceType, os, browser };
 }
@@ -387,7 +692,8 @@ function setTheme(themeName) {
     
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-        const computedColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+        const computedColor = getComputedStyle(document.documentElement)
+            .getPropertyValue('--accent-color').trim();
         themeColorMeta.setAttribute('content', computedColor);
     }
 }
@@ -406,7 +712,6 @@ async function setLanguage(lang) {
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('lang', lang);
     
-    // Update UI translations
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
@@ -414,7 +719,6 @@ async function setLanguage(lang) {
         }
     });
     
-    // Re-translate current quote if one is displayed
     if (currentQuoteData && !quoteSection.classList.contains('hidden')) {
         await displayQuote(currentQuoteData, true);
     }
@@ -517,6 +821,70 @@ function loadShownQuotes() {
 }
 
 // ============================================
+// JOURNEY SYSTEM
+// ============================================
+
+function startJourney(journeyType) {
+    const journey = journeyDefinitions[journeyType];
+    if (!journey || allQuotes.length === 0) return;
+    
+    currentJourney = journeyType;
+    journeyQuotes = [];
+    journeyCurrentIndex = 0;
+    
+    // Get one quote from each keyword category
+    journey.keywords.forEach(keyword => {
+        const matching = allQuotes.filter(q => quoteMatchesCategory(q, keyword));
+        if (matching.length > 0) {
+            const random = matching[Math.floor(Math.random() * matching.length)];
+            journeyQuotes.push(random);
+        }
+    });
+    
+    // Fill to 5 if needed
+    while (journeyQuotes.length < 5) {
+        const random = allQuotes[Math.floor(Math.random() * allQuotes.length)];
+        if (!journeyQuotes.find(q => q.id === random.id)) {
+            journeyQuotes.push(random);
+        }
+    }
+    
+    journeyQuotes = journeyQuotes.slice(0, 5);
+    
+    // Show journey UI
+    journeyProgressContainer.classList.remove('hidden');
+    journeyTitle.textContent = journey.title;
+    
+    showQuoteSection();
+    displayQuote(journeyQuotes[0]);
+    updateJourneyProgress();
+}
+
+function updateJourneyProgress() {
+    const current = journeyCurrentIndex + 1;
+    const total = journeyQuotes.length;
+    const percentage = (current / total) * 100;
+    
+    journeyStep.textContent = `${current} / ${total}`;
+    journeyProgressBar.style.width = `${percentage}%`;
+}
+
+function nextJourneyQuote() {
+    journeyCurrentIndex++;
+    
+    if (journeyCurrentIndex >= journeyQuotes.length) {
+        // Journey complete
+        statusMessage.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + translations[currentLanguage].journeyComplete;
+        journeyProgressContainer.classList.add('hidden');
+        currentJourney = null;
+        return;
+    }
+    
+    displayQuote(journeyQuotes[journeyCurrentIndex]);
+    updateJourneyProgress();
+}
+
+// ============================================
 // QUOTE FETCHING FUNCTIONS
 // ============================================
 
@@ -529,16 +897,13 @@ async function fetchAllQuotes() {
         const apiUrl = 'https://dummyjson.com/quotes?limit=0';
         const response = await fetch(apiUrl);
         
-        if (!response.ok) {
-            throw new Error('Failed to fetch quotes');
-        }
+        if (!response.ok) throw new Error('Failed to fetch quotes');
         
         const data = await response.json();
         allQuotes = data.quotes;
         
         saveQuotesToCache(allQuotes);
         showQuoteFromCategory();
-        
     } catch (error) {
         console.log('Fetch error:', error);
         loadCachedQuotes();
@@ -600,33 +965,26 @@ function showQuoteFromCategory() {
 }
 
 async function displayQuote(quote, isLanguageSwitch = false) {
-    // Store current quote for re-translation when language changes
     currentQuoteData = quote;
     
     quoteContainer.classList.remove('quote-reveal');
     void quoteContainer.offsetWidth;
     quoteContainer.classList.add('quote-reveal');
     
-    // Show translating status for non-English languages
     if (currentLanguage !== 'en') {
         statusMessage.innerHTML = '<i class="fas fa-language mr-2"></i>' + translations[currentLanguage].translating;
     }
     
-    // Translate quote text and author
     const translatedQuote = await translateText(quote.quote, currentLanguage);
     const translatedAuthor = await translateText(quote.author, currentLanguage);
     
-    // Display translated content
     quoteText.textContent = translatedQuote;
     
     const authorSpan = quoteAuthor.querySelector('[itemprop="name"]');
-    if (authorSpan) {
-        authorSpan.textContent = translatedAuthor;
-    }
+    if (authorSpan) authorSpan.textContent = translatedAuthor;
     
     statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${shownQuoteIds.length} ${translations[currentLanguage].viewed}`;
     
-    // Update meta tags with translated content
     updateMetaTags({ quote: translatedQuote, author: translatedAuthor });
 }
 
@@ -649,21 +1007,42 @@ function updateMetaTags(quote) {
 // ============================================
 
 function showQuoteSection() {
+    mainMenu.classList.add('hidden');
     categoriesSection.classList.add('hidden');
+    journeysSection.classList.add('hidden');
     quoteSection.classList.remove('hidden');
     quoteSection.classList.add('fade-enter');
     backBtn.focus();
 }
 
-function showCategoriesSection() {
+function showMainMenu() {
     quoteSection.classList.add('hidden');
-    categoriesSection.classList.remove('hidden');
-    categoryButtons[0].focus();
+    categoriesSection.classList.add('hidden');
+    journeysSection.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
+    
+    // Hide journey progress
+    journeyProgressContainer.classList.add('hidden');
+    currentJourney = null;
     
     if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
         voiceBtn.classList.remove('voice-active');
     }
+}
+
+function showCategoriesSection() {
+    mainMenu.classList.add('hidden');
+    quoteSection.classList.add('hidden');
+    journeysSection.classList.add('hidden');
+    categoriesSection.classList.remove('hidden');
+}
+
+function showJourneysSection() {
+    mainMenu.classList.add('hidden');
+    quoteSection.classList.add('hidden');
+    categoriesSection.classList.add('hidden');
+    journeysSection.classList.remove('hidden');
 }
 
 function toggleSettings() {
@@ -732,19 +1111,35 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         if (settingsPanel.classList.contains('open')) {
             toggleSettings();
+        } else if (storyCardModal.classList.contains('hidden') === false) {
+            storyCardModal.classList.add('hidden');
         } else if (!quoteSection.classList.contains('hidden')) {
-            showCategoriesSection();
+            if (currentJourney) {
+                showJourneysSection();
+            } else {
+                showMainMenu();
+            }
+        } else if (!categoriesSection.classList.contains('hidden')) {
+            showMainMenu();
+        } else if (!journeysSection.classList.contains('hidden')) {
+            showMainMenu();
         }
     }
     
     if ((e.key === 'b' || e.key === 'B') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
-        showCategoriesSection();
+        if (currentJourney) {
+            showJourneysSection();
+        } else {
+            showMainMenu();
+        }
     }
     
     if ((e.key === ' ' || e.key === 'n' || e.key === 'N') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
-        if (allQuotes.length > 0) {
+        if (currentJourney) {
+            nextJourneyQuote();
+        } else if (allQuotes.length > 0) {
             showQuoteFromCategory();
         } else {
             fetchAllQuotes();
@@ -759,6 +1154,11 @@ document.addEventListener('keydown', (e) => {
     if ((e.key === 'v' || e.key === 'V') && !quoteSection.classList.contains('hidden')) {
         e.preventDefault();
         speakQuote();
+    }
+    
+    if ((e.key === 'i' || e.key === 'I') && !quoteSection.classList.contains('hidden')) {
+        e.preventDefault();
+        generateStoryCard();
     }
     
     if (!quoteSection.classList.contains('hidden')) return;
@@ -777,7 +1177,12 @@ document.addEventListener('keydown', (e) => {
 // EVENT LISTENERS
 // ============================================
 
-categoryButtons.forEach((button, index) => {
+browseCategoriesBtn.addEventListener('click', showCategoriesSection);
+browseJourneysBtn.addEventListener('click', showJourneysSection);
+backToMenuFromCategories.addEventListener('click', showMainMenu);
+backToMenuFromJourneys.addEventListener('click', showMainMenu);
+
+categoryButtons.forEach((button) => {
     button.addEventListener('click', () => {
         currentCategory = button.getAttribute('data-category');
         loadShownQuotes();
@@ -791,33 +1196,35 @@ categoryButtons.forEach((button, index) => {
     });
 });
 
+journeyCards.forEach((card) => {
+    card.addEventListener('click', () => {
+        const journeyType = card.getAttribute('data-journey');
+        startJourney(journeyType);
+    });
+});
+
 backBtn.addEventListener('click', () => {
-    showCategoriesSection();
+    if (currentJourney) {
+        showJourneysSection();
+    } else {
+        showMainMenu();
+    }
 });
 
 newQuoteBtn.addEventListener('click', () => {
-    if (allQuotes.length > 0) {
+    if (currentJourney) {
+        nextJourneyQuote();
+    } else if (allQuotes.length > 0) {
         showQuoteFromCategory();
     } else {
         fetchAllQuotes();
     }
 });
 
-shareBtn.addEventListener('click', () => {
-    shareQuote();
-});
-
-voiceBtn.addEventListener('click', () => {
-    speakQuote();
-});
-
-settingsBtn.addEventListener('click', () => {
-    toggleSettings();
-});
-
-closeSettingsBtn.addEventListener('click', () => {
-    toggleSettings();
-});
+shareBtn.addEventListener('click', shareQuote);
+voiceBtn.addEventListener('click', speakQuote);
+settingsBtn.addEventListener('click', toggleSettings);
+closeSettingsBtn.addEventListener('click', toggleSettings);
 
 themeButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -831,7 +1238,7 @@ languageSelect.addEventListener('change', (e) => {
 });
 
 // ============================================
-// URL PARAMETER HANDLING (for shortcuts)
+// URL PARAMETER HANDLING
 // ============================================
 
 function handleURLParams() {
@@ -855,7 +1262,7 @@ function handleURLParams() {
 // INITIALIZATION
 // ============================================
 
-console.log('✨ Quote Galaxy PWA initialized with multilingual support!');
+console.log('✨ Quote Galaxy with Zen Backgrounds, Journeys & Story Cards initialized!');
 
 loadTheme();
 
