@@ -705,7 +705,7 @@ function getTopAuthors() {
     const sortedAuthors = Object.entries(authorCounts)
         .filter(([author, count]) => count >= 5)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 25)
+        .slice(0, 50)
         .map(([author, count]) => ({ name: author, count: count }));
     
     return sortedAuthors;
