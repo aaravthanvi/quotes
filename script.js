@@ -1310,10 +1310,18 @@ function showAuthorsSection() {
     journeysSection.classList.add('hidden');
     authorsSection.classList.remove('hidden');
     
-    if (allQuotes.length > 0 && topAuthors.length === 0) {
-        displayAuthors();
+    if (allQuotes.length > 0) {
+        if (topAuthors.length === 0) {
+            displayAuthors();
+        }
+    } else {
+        // Fetch quotes first if not loaded
+        fetchAllQuotes().then(() => {
+            displayAuthors();
+        });
     }
 }
+
 
 function showJourneysSection() {
     mainMenu.classList.add('hidden');
