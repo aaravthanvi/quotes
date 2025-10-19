@@ -1593,32 +1593,56 @@ if (!localStorage.getItem('theme')) {
 handleURLParams();
 
 
-// Fix theme button visibility in light seasonal themes
-function updateThemeButtonContrast() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const lightThemes = ['spring', 'summer', 'winter'];
-    
-    if (lightThemes.includes(currentTheme)) {
-        // Force dark text on all theme/seasonal buttons
-        document.querySelectorAll('.theme-btn, .seasonal-btn').forEach(btn => {
-            if (!btn.classList.contains('active')) {
-                btn.style.color = '#2d3748';
-            }
-        });
-    } else {
-        // Remove inline styles for dark themes
-        document.querySelectorAll('.theme-btn, .seasonal-btn').forEach(btn => {
-            btn.style.color = '';
-        });
+// ============================================
+// ACCESSIBLE CONTRAST FOR SETTINGS BUTTONS
+// ============================================
+function getLuminance(hex) {
+    const c = hex.replace('#', '');
+    const r = parseInt(c.substring(0,2), 16) / 255;
+    const g = parseInt(c.substring(2,4), 16) / 255;
+    const b = parseInt(c.substring(4,6), 16) / 255;
+    const a = [r, g, b].map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+}
+
+function bestTextColor(bgHex) {
+    try {
+        const L = getLuminance(bgHex);
+        return L > 0.5 ? '#111111' : '#ffffff';
+    } catch (e) {
+        return '#111111';
     }
 }
 
-// Call it when theme changes
-const originalSetTheme = setTheme;
-setTheme = function(themeName) {
-    originalSetTheme(themeName);
-    setTimeout(updateThemeButtonContrast, 50);
+function applySettingsContrast() {
+    const panel = document.getElementById('settings');
+    if (!panel) return;
+
+    const bg = getComputedStyle(panel).backgroundColor; // rgb(r,g,b)
+    const m = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (!m) return;
+
+    const hex = '#' + [m[1], m[2], m[3]].map(x => parseInt(x).toString(16).padStart(2, '0')).join('');
+    const color = bestTextColor(hex);
+
+    panel.querySelectorAll('.theme-btn, .seasonal-btn').forEach(btn => {
+        if (!btn.classList.contains('active')) {
+            btn.style.color = color;
+            btn.style.textShadow = 'none';
+        }
+    });
+
+    panel.querySelectorAll('.theme-btn span, .seasonal-btn span').forEach(el => {
+        el.style.color = color;
+    });
+}
+
+// Hook into theme change
+const __setTheme = setTheme;
+setTheme = function(name) {
+    __setTheme(name);
+    setTimeout(applySettingsContrast, 50);
 };
 
-// Call on page load
-updateThemeButtonContrast();
+// Run on load
+applySettingsContrast();
