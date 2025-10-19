@@ -293,6 +293,117 @@ const journeyDefinitions = {
         keywords: ['love', 'peace', 'life', 'wisdom', 'dream']
     }
 };
+
+// ============================================
+// CURATED CEO & SAGE QUOTES
+// ============================================
+
+const curatedQuotes = [
+    // Sam Altman (OpenAI CEO)
+    { id: 10001, quote: "The hard part of creating a business is creating something people want.", author: "Sam Altman" },
+    { id: 10002, quote: "You can create value with breakthrough innovation, incremental refinement, or complex coordination.", author: "Sam Altman" },
+    { id: 10003, quote: "Great execution is at least 10 times more important and a hundred times harder than a good idea.", author: "Sam Altman" },
+    { id: 10004, quote: "I think the best way to get a good idea is to get a lot of ideas.", author: "Sam Altman" },
+    { id: 10005, quote: "Aim to be the best in the world at whatever you do professionally.", author: "Sam Altman" },
+    { id: 10006, quote: "If you're not in the arena also getting your ass kicked, I'm not interested in your feedback.", author: "Sam Altman" },
+    { id: 10007, quote: "In the long run, the quality of people you surround yourself with is a huge predictor of success.", author: "Sam Altman" },
+    { id: 10008, quote: "The most impressive people I know care a lot about their work.", author: "Sam Altman" },
+    { id: 10009, quote: "Nothing is as valuable as an unstructured afternoon.", author: "Sam Altman" },
+    { id: 10010, quote: "You want to be able to project yourself 20 or 30 years into the future, and then think backwards from there.", author: "Sam Altman" },
+    
+    // Elon Musk (Tesla, SpaceX, X CEO)
+    { id: 10011, quote: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
+    { id: 10012, quote: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
+    { id: 10013, quote: "I think it's possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
+    { id: 10014, quote: "The first step is to establish that something is possible; then probability will occur.", author: "Elon Musk" },
+    { id: 10015, quote: "If you get up in the morning and think the future is going to be better, it is a bright day.", author: "Elon Musk" },
+    { id: 10016, quote: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" },
+    { id: 10017, quote: "I would like to die on Mars. Just not on impact.", author: "Elon Musk" },
+    { id: 10018, quote: "Some people don't like change, but you need to embrace change if the alternative is disaster.", author: "Elon Musk" },
+    { id: 10019, quote: "Take risks now. Do something bold. You won't regret it.", author: "Elon Musk" },
+    { id: 10020, quote: "If something's important enough, you should try. Even if the probable outcome is failure.", author: "Elon Musk" },
+    
+    // Steve Jobs (Apple Co-founder)
+    { id: 10021, quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { id: 10022, quote: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+    { id: 10023, quote: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+    { id: 10024, quote: "Stay hungry. Stay foolish.", author: "Steve Jobs" },
+    { id: 10025, quote: "Design is not just what it looks like. Design is how it works.", author: "Steve Jobs" },
+    { id: 10026, quote: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" },
+    { id: 10027, quote: "The people who are crazy enough to think they can change the world are the ones who do.", author: "Steve Jobs" },
+    { id: 10028, quote: "Simple can be harder than complex.", author: "Steve Jobs" },
+    { id: 10029, quote: "Don't let the noise of others' opinions drown out your own inner voice.", author: "Steve Jobs" },
+    { id: 10030, quote: "I want to put a ding in the universe.", author: "Steve Jobs" },
+    
+    // Bill Gates (Microsoft Co-founder)
+    { id: 10031, quote: "Your most unhappy customers are your greatest source of learning.", author: "Bill Gates" },
+    { id: 10032, quote: "It's fine to celebrate success, but it is more important to heed the lessons of failure.", author: "Bill Gates" },
+    { id: 10033, quote: "If you can't make it good, at least make it look good.", author: "Bill Gates" },
+    { id: 10034, quote: "Success is a lousy teacher. It seduces smart people into thinking they can't lose.", author: "Bill Gates" },
+    { id: 10035, quote: "We always overestimate the change that will occur in the next two years.", author: "Bill Gates" },
+    
+    // Jeff Bezos (Amazon Founder)
+    { id: 10036, quote: "I knew that if I failed I wouldn't regret that, but I knew the one thing I might regret is not trying.", author: "Jeff Bezos" },
+    { id: 10037, quote: "Life's too short to hang out with people who aren't resourceful.", author: "Jeff Bezos" },
+    { id: 10038, quote: "If you're not stubborn, you'll give up on experiments too soon.", author: "Jeff Bezos" },
+    { id: 10039, quote: "Work hard, have fun, make history.", author: "Jeff Bezos" },
+    { id: 10040, quote: "What's dangerous is not to evolve.", author: "Jeff Bezos" },
+    
+    // Sundar Pichai (Google CEO)
+    { id: 10041, quote: "Wear your failure as a badge of honor.", author: "Sundar Pichai" },
+    { id: 10042, quote: "It is important to follow your dreams and heart. Do something that excites you.", author: "Sundar Pichai" },
+    { id: 10043, quote: "As a leader, it is important to not just see your own success, but focus on the success of others.", author: "Sundar Pichai" },
+    { id: 10044, quote: "Let yourself feel insecure from time to time. It forces you to work harder.", author: "Sundar Pichai" },
+    
+    // Mark Zuckerberg (Meta CEO)
+    { id: 10045, quote: "The biggest risk is not taking any risk.", author: "Mark Zuckerberg" },
+    { id: 10046, quote: "Move fast and break things. Unless you are breaking stuff, you are not moving fast enough.", author: "Mark Zuckerberg" },
+    { id: 10047, quote: "Ideas don't come out fully formed. They only become clear as you work on them.", author: "Mark Zuckerberg" },
+    { id: 10048, quote: "The question isn't, 'What do we want to know about people?' It's, 'What do people want to tell about themselves?'", author: "Mark Zuckerberg" },
+    
+    // Warren Buffett (Berkshire Hathaway CEO)
+    { id: 10049, quote: "Price is what you pay. Value is what you get.", author: "Warren Buffett" },
+    { id: 10050, quote: "It takes 20 years to build a reputation and five minutes to ruin it.", author: "Warren Buffett" },
+    { id: 10051, quote: "Risk comes from not knowing what you're doing.", author: "Warren Buffett" },
+    { id: 10052, quote: "The stock market is designed to transfer money from the Active to the Patient.", author: "Warren Buffett" },
+    { id: 10053, quote: "Someone's sitting in the shade today because someone planted a tree a long time ago.", author: "Warren Buffett" },
+    
+    // Ancient Sages & Philosophers
+    { id: 10054, quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+    { id: 10055, quote: "No man ever steps in the same river twice.", author: "Heraclitus" },
+    { id: 10056, quote: "The whole is greater than the sum of its parts.", author: "Aristotle" },
+    { id: 10057, quote: "I think, therefore I am.", author: "René Descartes" },
+    { id: 10058, quote: "The unexamined life is not worth living.", author: "Socrates" },
+    { id: 10059, quote: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson" },
+    { id: 10060, quote: "The journey of a thousand miles begins with one step.", author: "Lao Tzu" },
+    { id: 10061, quote: "He who knows others is wise; he who knows himself is enlightened.", author: "Lao Tzu" },
+    { id: 10062, quote: "When you realize nothing is lacking, the whole world belongs to you.", author: "Lao Tzu" },
+    { id: 10063, quote: "The mind is everything. What you think you become.", author: "Buddha" },
+    { id: 10064, quote: "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.", author: "Buddha" },
+    { id: 10065, quote: "Three things cannot be long hidden: the sun, the moon, and the truth.", author: "Buddha" },
+    
+    // Satya Nadella (Microsoft CEO)
+    { id: 10066, quote: "Our industry does not respect tradition — it only respects innovation.", author: "Satya Nadella" },
+    { id: 10067, quote: "Empathy is at the core of everything we do.", author: "Satya Nadella" },
+    { id: 10068, quote: "Don't be a know-it-all, be a learn-it-all.", author: "Satya Nadella" },
+    
+    // Jensen Huang (NVIDIA CEO)
+    { id: 10069, quote: "The more you buy, the more you save.", author: "Jensen Huang" },
+    { id: 10070, quote: "Either you're running for food, or you are running from being food.", author: "Jensen Huang" },
+    
+    // Peter Thiel (PayPal Co-founder)
+    { id: 10071, quote: "Competition is for losers.", author: "Peter Thiel" },
+    { id: 10072, quote: "The most contrarian thing of all is not to oppose the crowd but to think for yourself.", author: "Peter Thiel" },
+    { id: 10073, quote: "Every moment in business happens only once.", author: "Peter Thiel" },
+    
+    // Naval Ravikant (AngelList Founder)
+    { id: 10074, quote: "Seek wealth, not money or status. Wealth is having assets that earn while you sleep.", author: "Naval Ravikant" },
+    { id: 10075, quote: "Play long-term games with long-term people.", author: "Naval Ravikant" },
+    { id: 10076, quote: "Specific knowledge is found by pursuing your genuine curiosity.", author: "Naval Ravikant" },
+    { id: 10077, quote: "The most important skill for getting rich is becoming a perpetual learner.", author: "Naval Ravikant" },
+    { id: 10078, quote: "A fit body, a calm mind, a house full of love. These things cannot be bought — they must be earned.", author: "Naval Ravikant" }
+];
+
 // ============================================
 // ZEN BACKGROUND SYSTEM
 // ============================================
@@ -1040,6 +1151,9 @@ async function fetchAllQuotes() {
         });
         
         allQuotes = uniqueQuotes;
+
+        // Add curated CEO & Sage quotes
+        allQuotes = allQuotes.concat(curatedQuotes);
         
         console.log('🎉 Total unique quotes loaded:', allQuotes.length);
         
