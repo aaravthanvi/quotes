@@ -1591,3 +1591,34 @@ if (!localStorage.getItem('theme')) {
 }
 
 handleURLParams();
+
+
+// Fix theme button visibility in light seasonal themes
+function updateThemeButtonContrast() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const lightThemes = ['spring', 'summer', 'winter'];
+    
+    if (lightThemes.includes(currentTheme)) {
+        // Force dark text on all theme/seasonal buttons
+        document.querySelectorAll('.theme-btn, .seasonal-btn').forEach(btn => {
+            if (!btn.classList.contains('active')) {
+                btn.style.color = '#2d3748';
+            }
+        });
+    } else {
+        // Remove inline styles for dark themes
+        document.querySelectorAll('.theme-btn, .seasonal-btn').forEach(btn => {
+            btn.style.color = '';
+        });
+    }
+}
+
+// Call it when theme changes
+const originalSetTheme = setTheme;
+setTheme = function(themeName) {
+    originalSetTheme(themeName);
+    setTimeout(updateThemeButtonContrast, 50);
+};
+
+// Call on page load
+updateThemeButtonContrast();
