@@ -204,6 +204,8 @@ const languageCodes = {
 
 const mainMenu = document.getElementById('main-menu');
 const categoriesSection = document.getElementById('categories');
+const authorsSection = document.getElementById('authors');
+const authorsGrid = document.getElementById('authors-grid');
 const journeysSection = document.getElementById('journeys');
 const quoteSection = document.getElementById('quote-section');
 const quoteText = document.getElementById('quote-text');
@@ -224,8 +226,10 @@ const themeButtons = document.querySelectorAll('.theme-btn');
 const languageSelect = document.getElementById('language-select');
 const installBtn = document.getElementById('install-btn');
 const browseCategoriesBtn = document.getElementById('browse-categories-btn');
+const browseAuthorsBtn = document.getElementById('browse-authors-btn');
 const browseJourneysBtn = document.getElementById('browse-journeys-btn');
 const backToMenuFromCategories = document.getElementById('back-to-menu-from-categories');
+const backToMenuFromAuthors = document.getElementById('back-to-menu-from-authors');
 const backToMenuFromJourneys = document.getElementById('back-to-menu-from-journeys');
 const journeyProgressContainer = document.getElementById('journey-progress-container');
 const journeyTitle = document.getElementById('journey-title');
@@ -240,10 +244,12 @@ const zenToggle = document.getElementById('zen-toggle');
 const zenStyle = document.getElementById('zen-style');
 
 let currentCategory = '';
+let currentAuthor = '';
 let currentJourney = null;
 let journeyQuotes = [];
 let journeyCurrentIndex = 0;
 let allQuotes = [];
+let topAuthors = [];
 let shownQuoteIds = [];
 let currentLanguage = 'en';
 let easterEggInput = '';
@@ -269,7 +275,6 @@ const categoryKeywords = {
     'peace': ['peace', 'calm', 'quiet', 'tranquil', 'serene', 'still', 'silence', 'rest', 'harmony', 'balance', 'ease', 'gentle', 'soothe', 'relax']
 };
 
-// Journey definitions
 const journeyDefinitions = {
     morning: {
         title: 'Morning Focus',
@@ -288,7 +293,6 @@ const journeyDefinitions = {
         keywords: ['love', 'peace', 'life', 'wisdom', 'dream']
     }
 };
-
 // ============================================
 // ZEN BACKGROUND SYSTEM
 // ============================================
@@ -463,7 +467,6 @@ zenStyle.addEventListener('change', (e) => {
     }
 });
 
-// Load zen settings
 const savedZenEnabled = localStorage.getItem('zenEnabled') === 'true';
 const savedZenStyle = localStorage.getItem('zenStyle') || 'particles';
 zenToggle.checked = savedZenEnabled;
@@ -485,7 +488,6 @@ function generateStoryCard() {
     const width = 1080;
     const height = 1920;
     
-    // Get current theme colors
     const bgColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--bg-primary').trim();
     const textColor = getComputedStyle(document.documentElement)
@@ -493,27 +495,22 @@ function generateStoryCard() {
     const accentColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--accent-color').trim();
     
-    // Clear canvas
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, width, height);
     
-    // Add subtle gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, height);
     gradient.addColorStop(0, hexToRgba(accentColor, 0.05));
     gradient.addColorStop(1, 'transparent');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
     
-    // Get quote text and author
     const quote = quoteText.textContent;
     const authorName = quoteAuthor.querySelector('[itemprop="name"]')?.textContent || 'Unknown';
     
-    // Draw quote icon
     ctx.fillStyle = hexToRgba(accentColor, 0.3);
     ctx.font = 'bold 120px Arial';
     ctx.fillText('"', 100, 250);
     
-    // Draw quote text (wrapped)
     ctx.fillStyle = textColor;
     ctx.font = '600 64px Inter, sans-serif';
     ctx.textAlign = 'left';
@@ -538,23 +535,19 @@ function generateStoryCard() {
     }
     ctx.fillText(line, 100, y);
     
-    // Draw author
     ctx.fillStyle = accentColor;
     ctx.font = '500 48px Inter, sans-serif';
     ctx.fillText('— ' + authorName, 100, y + 120);
     
-    // Draw branding
     ctx.fillStyle = hexToRgba(textColor, 0.5);
     ctx.font = '400 36px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('✨ Quote Galaxy', width / 2, height - 100);
     
-    // Show modal
     storyCardModal.classList.remove('hidden');
 }
 
 function hexToRgba(hex, alpha) {
-    // Handle both formats: #RGB and rgba(r, g, b)
     if (hex.startsWith('rgba')) {
         return hex.replace(/[\d.]+\)$/g, `${alpha})`);
     }
@@ -582,7 +575,85 @@ downloadStoryBtn.addEventListener('click', () => {
     link.href = storyCardCanvas.toDataURL('image/png');
     link.click();
 });
+// ============================================
+// AUTHORS SYSTEM
+// ============================================
 
+function getTopAuthors() {
+    const authorCounts = {};
+    
+    allQuotes.forEach(quote => {
+        const author = quote.author;
+        if (authorCounts[author]) {
+            authorCounts[author]++;
+        } else {
+            authorCounts[author] = 1;
+        }
+    });
+    
+    const sortedAuthors = Object.entries(authorCounts)
+        .filter(([author, count]) => count >= 5)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 15)
+        .map(([author, count]) => ({ name: author, count: count }));
+    
+    return sortedAuthors;
+}
+
+function displayAuthors() {
+    topAuthors = getTopAuthors();
+    authorsGrid.innerHTML = '';
+    
+    topAuthors.forEach(author => {
+        const initials = author.name.split(' ').map(n => n[0]).join('').slice(0, 2);
+        
+        const authorCard = document.createElement('button');
+        authorCard.className = 'author-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-center';
+        authorCard.setAttribute('data-author', author.name);
+        
+        authorCard.innerHTML = `
+            <div class="w-16 h-16 mx-auto mb-3 rounded-full accent-bg flex items-center justify-center text-2xl font-bold text-white">
+                ${initials}
+            </div>
+            <h3 class="font-semibold mb-1 text-sm">${author.name}</h3>
+            <p class="text-xs text-secondary">${author.count} quotes</p>
+        `;
+        
+        authorCard.addEventListener('click', () => {
+            currentAuthor = author.name;
+            currentCategory = '';
+            currentJourney = null;
+            shownQuoteIds = [];
+            showQuoteSection();
+            showQuotesByAuthor();
+        });
+        
+        authorsGrid.appendChild(authorCard);
+    });
+}
+
+function showQuotesByAuthor() {
+    const authorQuotes = allQuotes.filter(q => q.author === currentAuthor);
+    
+    if (authorQuotes.length === 0) {
+        quoteText.textContent = 'No quotes found for this author.';
+        quoteAuthor.textContent = '';
+        return;
+    }
+    
+    const availableQuotes = authorQuotes.filter(q => !shownQuoteIds.includes(q.id));
+    
+    if (availableQuotes.length === 0) {
+        shownQuoteIds = [];
+        return showQuotesByAuthor();
+    }
+    
+    const randomIndex = Math.floor(Math.random() * availableQuotes.length);
+    const selectedQuote = availableQuotes[randomIndex];
+    
+    shownQuoteIds.push(selectedQuote.id);
+    displayQuote(selectedQuote);
+}
 // ============================================
 // TRANSLATION FUNCTIONS
 // ============================================
@@ -805,7 +876,8 @@ function getCachedQuotes() {
 
 function saveShownQuotes() {
     try {
-        localStorage.setItem('shownQuotes_' + currentCategory, JSON.stringify(shownQuoteIds));
+        const key = currentAuthor ? `shownQuotes_author_${currentAuthor}` : `shownQuotes_${currentCategory}`;
+        localStorage.setItem(key, JSON.stringify(shownQuoteIds));
     } catch (error) {
         console.log('Could not save shown quotes:', error);
     }
@@ -813,7 +885,8 @@ function saveShownQuotes() {
 
 function loadShownQuotes() {
     try {
-        const shown = localStorage.getItem('shownQuotes_' + currentCategory);
+        const key = currentAuthor ? `shownQuotes_author_${currentAuthor}` : `shownQuotes_${currentCategory}`;
+        const shown = localStorage.getItem(key);
         shownQuoteIds = shown ? JSON.parse(shown) : [];
     } catch (error) {
         shownQuoteIds = [];
@@ -832,7 +905,6 @@ function startJourney(journeyType) {
     journeyQuotes = [];
     journeyCurrentIndex = 0;
     
-    // Get one quote from each keyword category
     journey.keywords.forEach(keyword => {
         const matching = allQuotes.filter(q => quoteMatchesCategory(q, keyword));
         if (matching.length > 0) {
@@ -841,7 +913,6 @@ function startJourney(journeyType) {
         }
     });
     
-    // Fill to 5 if needed
     while (journeyQuotes.length < 5) {
         const random = allQuotes[Math.floor(Math.random() * allQuotes.length)];
         if (!journeyQuotes.find(q => q.id === random.id)) {
@@ -851,7 +922,6 @@ function startJourney(journeyType) {
     
     journeyQuotes = journeyQuotes.slice(0, 5);
     
-    // Show journey UI
     journeyProgressContainer.classList.remove('hidden');
     journeyTitle.textContent = journey.title;
     
@@ -873,7 +943,6 @@ function nextJourneyQuote() {
     journeyCurrentIndex++;
     
     if (journeyCurrentIndex >= journeyQuotes.length) {
-        // Journey complete
         statusMessage.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + translations[currentLanguage].journeyComplete;
         journeyProgressContainer.classList.add('hidden');
         currentJourney = null;
@@ -883,7 +952,6 @@ function nextJourneyQuote() {
     displayQuote(journeyQuotes[journeyCurrentIndex]);
     updateJourneyProgress();
 }
-
 // ============================================
 // QUOTE FETCHING FUNCTIONS
 // ============================================
@@ -1009,6 +1077,7 @@ function updateMetaTags(quote) {
 function showQuoteSection() {
     mainMenu.classList.add('hidden');
     categoriesSection.classList.add('hidden');
+    authorsSection.classList.add('hidden');
     journeysSection.classList.add('hidden');
     quoteSection.classList.remove('hidden');
     quoteSection.classList.add('fade-enter');
@@ -1018,12 +1087,13 @@ function showQuoteSection() {
 function showMainMenu() {
     quoteSection.classList.add('hidden');
     categoriesSection.classList.add('hidden');
+    authorsSection.classList.add('hidden');
     journeysSection.classList.add('hidden');
     mainMenu.classList.remove('hidden');
     
-    // Hide journey progress
     journeyProgressContainer.classList.add('hidden');
     currentJourney = null;
+    currentAuthor = '';
     
     if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
@@ -1034,14 +1104,28 @@ function showMainMenu() {
 function showCategoriesSection() {
     mainMenu.classList.add('hidden');
     quoteSection.classList.add('hidden');
+    authorsSection.classList.add('hidden');
     journeysSection.classList.add('hidden');
     categoriesSection.classList.remove('hidden');
+}
+
+function showAuthorsSection() {
+    mainMenu.classList.add('hidden');
+    quoteSection.classList.add('hidden');
+    categoriesSection.classList.add('hidden');
+    journeysSection.classList.add('hidden');
+    authorsSection.classList.remove('hidden');
+    
+    if (allQuotes.length > 0 && topAuthors.length === 0) {
+        displayAuthors();
+    }
 }
 
 function showJourneysSection() {
     mainMenu.classList.add('hidden');
     quoteSection.classList.add('hidden');
     categoriesSection.classList.add('hidden');
+    authorsSection.classList.add('hidden');
     journeysSection.classList.remove('hidden');
 }
 
@@ -1116,12 +1200,16 @@ document.addEventListener('keydown', (e) => {
         } else if (!quoteSection.classList.contains('hidden')) {
             if (currentJourney) {
                 showJourneysSection();
+            } else if (currentAuthor) {
+                showAuthorsSection();
             } else {
                 showMainMenu();
             }
         } else if (!categoriesSection.classList.contains('hidden')) {
             showMainMenu();
         } else if (!journeysSection.classList.contains('hidden')) {
+            showMainMenu();
+        } else if (!authorsSection.classList.contains('hidden')) {
             showMainMenu();
         }
     }
@@ -1130,6 +1218,8 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         if (currentJourney) {
             showJourneysSection();
+        } else if (currentAuthor) {
+            showAuthorsSection();
         } else {
             showMainMenu();
         }
@@ -1139,6 +1229,8 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         if (currentJourney) {
             nextJourneyQuote();
+        } else if (currentAuthor) {
+            showQuotesByAuthor();
         } else if (allQuotes.length > 0) {
             showQuoteFromCategory();
         } else {
@@ -1172,19 +1264,21 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-
 // ============================================
 // EVENT LISTENERS
 // ============================================
 
 browseCategoriesBtn.addEventListener('click', showCategoriesSection);
+browseAuthorsBtn.addEventListener('click', showAuthorsSection);
 browseJourneysBtn.addEventListener('click', showJourneysSection);
 backToMenuFromCategories.addEventListener('click', showMainMenu);
+backToMenuFromAuthors.addEventListener('click', showMainMenu);
 backToMenuFromJourneys.addEventListener('click', showMainMenu);
 
 categoryButtons.forEach((button) => {
     button.addEventListener('click', () => {
         currentCategory = button.getAttribute('data-category');
+        currentAuthor = '';
         loadShownQuotes();
         showQuoteSection();
         
@@ -1206,6 +1300,8 @@ journeyCards.forEach((card) => {
 backBtn.addEventListener('click', () => {
     if (currentJourney) {
         showJourneysSection();
+    } else if (currentAuthor) {
+        showAuthorsSection();
     } else {
         showMainMenu();
     }
@@ -1214,6 +1310,8 @@ backBtn.addEventListener('click', () => {
 newQuoteBtn.addEventListener('click', () => {
     if (currentJourney) {
         nextJourneyQuote();
+    } else if (currentAuthor) {
+        showQuotesByAuthor();
     } else if (allQuotes.length > 0) {
         showQuoteFromCategory();
     } else {
@@ -1247,6 +1345,7 @@ function handleURLParams() {
     
     if (category && categoryKeywords[category]) {
         currentCategory = category;
+        currentAuthor = '';
         loadShownQuotes();
         showQuoteSection();
         
@@ -1262,7 +1361,7 @@ function handleURLParams() {
 // INITIALIZATION
 // ============================================
 
-console.log('✨ Quote Galaxy with Zen Backgrounds, Journeys & Story Cards initialized!');
+console.log('✨ Quote Galaxy with Zen Backgrounds, Journeys, Story Cards & Authors initialized!');
 
 loadTheme();
 
