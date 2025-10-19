@@ -33,12 +33,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Quote Galaxy">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  
+    
     <!-- Favicon -->
     <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
-
+    
+    <!-- iOS Home Screen -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -80,7 +81,6 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
         
-        /* Theme Variables - Default Dark - WCAG AA COMPLIANT */
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: rgba(255, 255, 255, 0.05);
@@ -92,7 +92,6 @@
             --accent-hover: #2563eb;
         }
         
-        /* VS Code Dark Theme */
         [data-theme="vscode-dark"] {
             --bg-primary: #1e1e1e;
             --bg-secondary: #252526;
@@ -104,7 +103,6 @@
             --accent-hover: #005a9e;
         }
         
-        /* Monokai Theme - WCAG AA COMPLIANT */
         [data-theme="monokai"] {
             --bg-primary: #272822;
             --bg-secondary: #3e3d32;
@@ -116,7 +114,6 @@
             --accent-hover: #8fc720;
         }
         
-        /* Nord Theme */
         [data-theme="nord"] {
             --bg-primary: #2e3440;
             --bg-secondary: #3b4252;
@@ -128,7 +125,6 @@
             --accent-hover: #81a1c1;
         }
         
-        /* Dracula Theme - WCAG AA COMPLIANT */
         [data-theme="dracula"] {
             --bg-primary: #282a36;
             --bg-secondary: #44475a;
@@ -140,7 +136,6 @@
             --accent-hover: #ff8fd1;
         }
         
-        /* GitHub Dark Theme */
         [data-theme="github-dark"] {
             --bg-primary: #0d1117;
             --bg-secondary: #161b22;
@@ -152,7 +147,6 @@
             --accent-hover: #1f6feb;
         }
         
-        /* Solarized Dark Theme - WCAG AA COMPLIANT */
         [data-theme="solarized-dark"] {
             --bg-primary: #002b36;
             --bg-secondary: #073642;
@@ -164,7 +158,6 @@
             --accent-hover: #268bd2;
         }
         
-        /* Spring Theme - WCAG AA COMPLIANT */
         [data-theme="spring"] {
             --bg-primary: #f0f9ff;
             --bg-secondary: #e0f2fe;
@@ -176,7 +169,6 @@
             --accent-hover: #15803d;
         }
         
-        /* Summer Theme - WCAG AA COMPLIANT */
         [data-theme="summer"] {
             --bg-primary: #fffbeb;
             --bg-secondary: #fef3c7;
@@ -188,7 +180,6 @@
             --accent-hover: #d97706;
         }
         
-        /* Autumn Theme */
         [data-theme="autumn"] {
             --bg-primary: #1c1917;
             --bg-secondary: #292524;
@@ -200,7 +191,6 @@
             --accent-hover: #f97316;
         }
         
-        /* Winter Theme - WCAG AA COMPLIANT */
         [data-theme="winter"] {
             --bg-primary: #f8fafc;
             --bg-secondary: #f1f5f9;
@@ -212,7 +202,6 @@
             --accent-hover: #0284c7;
         }
         
-        /* Hidden Rainbow Theme - WCAG AA COMPLIANT */
         [data-theme="rainbow"] {
             --bg-primary: #1a1a1a;
             --bg-secondary: #2d2d2d;
@@ -227,14 +216,12 @@
             animation: rainbowShift 15s ease infinite;
         }
         
-        /* Rainbow text shadow for guaranteed readability */
         [data-theme="rainbow"] #quote-text,
         [data-theme="rainbow"] #quote-author,
         [data-theme="rainbow"] .text-primary {
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
         
-        /* Hidden Matrix Theme */
         [data-theme="matrix"] {
             --bg-primary: #000000;
             --bg-secondary: #0d0d0d;
@@ -246,7 +233,6 @@
             --accent-hover: #00cc00;
         }
         
-        /* Hidden Retro Theme - WCAG AA COMPLIANT */
         [data-theme="retro"] {
             --bg-primary: #fef9c7;
             --bg-secondary: #fdf0aa;
@@ -299,7 +285,6 @@
             background-color: var(--accent-hover);
         }
         
-        /* Zen Background Canvas */
         #zen-canvas {
             position: fixed;
             top: 0;
@@ -316,19 +301,16 @@
             opacity: 1;
         }
         
-        /* Make sure content is above canvas */
         section {
             position: relative;
             z-index: 1;
         }
         
-        /* Focus styles for keyboard navigation */
         *:focus {
             outline: 2px solid var(--accent-color);
             outline-offset: 2px;
         }
         
-        /* Smooth animations */
         .fade-enter { 
             animation: fadeIn 0.4s ease-out;
         }
@@ -383,7 +365,6 @@
             padding-right: 1.25rem;
         }
         
-        /* Settings panel */
         .settings-panel {
             position: fixed;
             top: 0;
@@ -402,7 +383,6 @@
             right: 0;
         }
         
-        /* Keyboard shortcuts help */
         .kbd {
             display: inline-block;
             padding: 0.25rem 0.5rem;
@@ -414,7 +394,6 @@
             color: var(--text-secondary);
         }
         
-        /* Voice button pulse animation */
         @keyframes voicePulse {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.8; }
@@ -424,7 +403,6 @@
             animation: voicePulse 1.5s ease-in-out infinite;
         }
         
-        /* Journey Progress Bar */
         .journey-progress {
             position: relative;
             height: 4px;
@@ -439,7 +417,6 @@
             transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* Story Card Preview */
         #story-card-preview {
             max-width: 360px;
             aspect-ratio: 9/16;
@@ -597,13 +574,20 @@
             </div>
 
             <!-- Main Options -->
-            <div class="grid md:grid-cols-2 gap-4">
+            <div class="grid md:grid-cols-3 gap-4">
                 
                 <!-- Browse Categories -->
                 <button id="browse-categories-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
                     <i class="fas fa-compass text-4xl mb-4 accent-color"></i>
                     <h2 class="text-2xl font-bold mb-2">Browse Categories</h2>
                     <p class="text-secondary">Explore quotes by topic</p>
+                </button>
+                
+                <!-- Browse Authors -->
+                <button id="browse-authors-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
+                    <i class="fas fa-user-pen text-4xl mb-4 accent-color"></i>
+                    <h2 class="text-2xl font-bold mb-2">Browse Authors</h2>
+                    <p class="text-secondary">Quotes by famous writers</p>
                 </button>
                 
                 <!-- Quote Journeys -->
@@ -692,6 +676,30 @@
                     <p class="text-sm font-medium" data-i18n="cat-peace">Peace</p>
                 </button>
                 
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Authors Section -->
+    <section id="authors" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="max-w-5xl w-full">
+            
+            <!-- Back to Menu -->
+            <button id="back-to-menu-from-authors" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
+                <i class="fas fa-arrow-left"></i>
+                <span class="text-sm font-medium">Back to menu</span>
+            </button>
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Browse by Author</h2>
+                <p class="text-secondary">Explore wisdom from great thinkers</p>
+            </div>
+
+            <!-- Authors Grid -->
+            <div id="authors-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Authors will be loaded here dynamically -->
             </div>
             
         </div>
