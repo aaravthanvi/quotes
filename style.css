@@ -268,52 +268,25 @@ body {
         font-size: 1.2rem;
     }
 }
-/* Fix seasonal theme text contrast - STRONGER SELECTORS */
-body[data-theme="spring"] #settings button,
-body[data-theme="summer"] #settings button,
-body[data-theme="winter"] #settings button {
-    color: #1a1a1a !important;
-}
 
-/* Active buttons keep their theme color */
-body[data-theme="spring"] #settings button.active,
-body[data-theme="summer"] #settings button.active,
-body[data-theme="winter"] #settings button.active {
-    color: var(--text-primary) !important;
-    font-weight: 600;
-}
-
-/* Settings panel text itself */
-body[data-theme="spring"] #settings,
-body[data-theme="summer"] #settings,
-body[data-theme="winter"] #settings {
-    color: #1a1a1a !important;
-}
-
+/* FINAL FIX - Force readable text in light themes */
 [data-theme="spring"] .theme-btn:not(.active),
+[data-theme="spring"] .seasonal-btn:not(.active),
 [data-theme="summer"] .theme-btn:not(.active),
-[data-theme="winter"] .theme-btn:not(.active) {
-    opacity: 0.6;
+[data-theme="summer"] .seasonal-btn:not(.active),
+[data-theme="winter"] .theme-btn:not(.active),
+[data-theme="winter"] .seasonal-btn:not(.active) {
+    color: #1a1a1a !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+/* Make text inside buttons visible too */
+[data-theme="spring"] .theme-btn span,
+[data-theme="spring"] .seasonal-btn span,
+[data-theme="summer"] .theme-btn span,
+[data-theme="summer"] .seasonal-btn span,
+[data-theme="winter"] .theme-btn span,
+[data-theme="winter"] .seasonal-btn span {
     color: #1a1a1a !important;
 }
-
-/* Seasonal buttons in light themes need darker text */
-[data-theme="spring"] .seasonal-btn:not(.active),
-[data-theme="summer"] .seasonal-btn:not(.active),
-[data-theme="winter"] .seasonal-btn:not(.active) {
-    color: #333333 !important;
-    opacity: 0.7;
-}
-
-/* Active buttons should always be clearly visible */
-.theme-btn.active,
-.seasonal-btn.active {
-    color: var(--text-primary) !important;
-    opacity: 1 !important;
-    font-weight: 600;
-}
-
-/* Ensure text isn't overridden by theme variables */
-#settings .theme-btn,
-#settings .seasonal-btn { text-shadow: none !important; }
-
