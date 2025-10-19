@@ -1323,6 +1323,7 @@ function showAuthorsSection() {
 }
 
 
+
 function showJourneysSection() {
     mainMenu.classList.add('hidden');
     quoteSection.classList.add('hidden');
