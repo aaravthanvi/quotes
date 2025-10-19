@@ -268,3 +268,36 @@ body {
         font-size: 1.2rem;
     }
 }
+/* Fix seasonal theme text contrast issues */
+[data-theme="spring"] .theme-btn,
+[data-theme="spring"] .seasonal-btn,
+[data-theme="summer"] .theme-btn,
+[data-theme="summer"] .seasonal-btn,
+[data-theme="winter"] .theme-btn,
+[data-theme="winter"] .seasonal-btn {
+    color: var(--text-primary) !important;
+}
+
+/* Ensure inactive theme buttons have good contrast */
+[data-theme="spring"] .theme-btn:not(.active),
+[data-theme="summer"] .theme-btn:not(.active),
+[data-theme="winter"] .theme-btn:not(.active) {
+    opacity: 0.6;
+    color: #1a1a1a !important;
+}
+
+/* Seasonal buttons in light themes need darker text */
+[data-theme="spring"] .seasonal-btn:not(.active),
+[data-theme="summer"] .seasonal-btn:not(.active),
+[data-theme="winter"] .seasonal-btn:not(.active) {
+    color: #333333 !important;
+    opacity: 0.7;
+}
+
+/* Active buttons should always be clearly visible */
+.theme-btn.active,
+.seasonal-btn.active {
+    color: var(--text-primary) !important;
+    opacity: 1 !important;
+    font-weight: 600;
+}
