@@ -312,3 +312,8 @@ body[data-theme="winter"] #settings {
     opacity: 1 !important;
     font-weight: 600;
 }
+
+/* Ensure text isn't overridden by theme variables */
+#settings .theme-btn,
+#settings .seasonal-btn { text-shadow: none !important; }
+
