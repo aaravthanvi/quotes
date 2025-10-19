@@ -962,18 +962,98 @@ async function fetchAllQuotes() {
         quoteAuthor.textContent = '';
         statusMessage.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>' + translations[currentLanguage].loading;
         
-        const apiUrl = 'https://dummyjson.com/quotes?limit=0';
-        const response = await fetch(apiUrl);
+        // Array to store all quotes from multiple APIs
+        let combinedQuotes = [];
         
-        if (!response.ok) throw new Error('Failed to fetch quotes');
+        // API 1: DummyJSON (1454 quotes)
+        try {
+            const response1 = await fetch('https://dummyjson.com/quotes?limit=0');
+            if (response1.ok) {
+                const data1 = await response1.json();
+                combinedQuotes = combinedQuotes.concat(data1.quotes);
+                console.log('✅ DummyJSON: Loaded', data1.quotes.length, 'quotes');
+            }
+        } catch (err) {
+            console.log('⚠️ DummyJSON failed:', err);
+        }
         
-        const data = await response.json();
-        allQuotes = data.quotes;
+        // API 2: Quotable.io (2000+ quotes)
+        try {
+            let quotablePage = 1;
+            let hasMore = true;
+            
+            while (hasMore && quotablePage <= 15) {  // Limit to 15 pages = ~300 quotes
+                const response2 = await fetch(`https://api.quotable.io/quotes?page=${quotablePage}&limit=20`);
+                if (response2.ok) {
+                    const data2 = await response2.json();
+                    
+                    // Convert format to match DummyJSON
+                    const formattedQuotes = data2.results.map((q, index) => ({
+                        id: 1500 + (quotablePage * 20) + index,  // Unique IDs starting from 1500
+                        quote: q.content,
+                        author: q.author
+                    }));
+                    
+                    combinedQuotes = combinedQuotes.concat(formattedQuotes);
+                    
+                    hasMore = data2.totalPages > quotablePage;
+                    quotablePage++;
+                } else {
+                    hasMore = false;
+                }
+            }
+            console.log('✅ Quotable.io: Loaded quotes');
+        } catch (err) {
+            console.log('⚠️ Quotable.io failed:', err);
+        }
+        
+        // API 3: ZenQuotes (50 quotes - small but good quality)
+        try {
+            const response3 = await fetch('https://zenquotes.io/api/quotes');
+            if (response3.ok) {
+                const data3 = await response3.json();
+                
+                // Convert format to match DummyJSON
+                const formattedQuotes = data3.map((q, index) => ({
+                    id: 2000 + index,  // Unique IDs starting from 2000
+                    quote: q.q,
+                    author: q.a
+                }));
+                
+                combinedQuotes = combinedQuotes.concat(formattedQuotes);
+                console.log('✅ ZenQuotes: Loaded', formattedQuotes.length, 'quotes');
+            }
+        } catch (err) {
+            console.log('⚠️ ZenQuotes failed:', err);
+        }
+        
+        // Remove duplicates based on quote text
+        const uniqueQuotes = [];
+        const seenQuotes = new Set();
+        
+        combinedQuotes.forEach(quote => {
+            const normalizedQuote = quote.quote.toLowerCase().trim();
+            if (!seenQuotes.has(normalizedQuote)) {
+                seenQuotes.add(normalizedQuote);
+                uniqueQuotes.push(quote);
+            }
+        });
+        
+        allQuotes = uniqueQuotes;
+        
+        console.log('🎉 Total unique quotes loaded:', allQuotes.length);
+        
+        if (allQuotes.length === 0) {
+            throw new Error('No quotes loaded from any API');
+        }
         
         saveQuotesToCache(allQuotes);
         showQuoteFromCategory();
+        
+        statusMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${allQuotes.length} quotes loaded`;
+        
     } catch (error) {
-        console.log('Fetch error:', error);
+        console.log('❌ All APIs failed:', error);
         loadCachedQuotes();
     }
 }
