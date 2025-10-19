@@ -2,7 +2,8 @@
   "name": "Quote Galaxy - Inspirational Quotes",
   "short_name": "Quote Galaxy",
   "description": "Explore wisdom from around the world with 1000+ inspirational quotes across 11 categories",
-  "start_url": "/quotes/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
   "theme_color": "#3b82f6",
@@ -11,59 +12,31 @@
   "lang": "en",
   "dir": "ltr",
   "icons": [
-    {
-      "src": "icons/app-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/app-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/app-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icons/app-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/app-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/app-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "shortcuts": [
     {
       "name": "Inspiration Quotes",
       "short_name": "Inspire",
       "description": "Get inspired with motivational quotes",
-      "url": "/quotes/?category=inspire",
-      "icons": [
-        {
-          "src": "icons/app-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "/?category=inspire",
+      "icons": [{ "src": "icons/app-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Life Quotes",
       "short_name": "Life",
       "description": "Wisdom about life",
-      "url": "/quotes/?category=life",
-      "icons": [
-        {
-          "src": "icons/app-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "/?category=life",
+      "icons": [{ "src": "icons/app-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Random Quote",
       "short_name": "Random",
       "description": "Show me a random quote",
-      "url": "/quotes/?category=all",
-      "icons": [
-        {
-          "src": "icons/app-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "/?category=all",
+      "icons": [{ "src": "icons/app-192.png", "sizes": "192x192" }]
     }
   ]
 }
