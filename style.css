@@ -268,17 +268,28 @@ body {
         font-size: 1.2rem;
     }
 }
-/* Fix seasonal theme text contrast issues */
-[data-theme="spring"] .theme-btn,
-[data-theme="spring"] .seasonal-btn,
-[data-theme="summer"] .theme-btn,
-[data-theme="summer"] .seasonal-btn,
-[data-theme="winter"] .theme-btn,
-[data-theme="winter"] .seasonal-btn {
-    color: var(--text-primary) !important;
+/* Fix seasonal theme text contrast - STRONGER SELECTORS */
+body[data-theme="spring"] #settings button,
+body[data-theme="summer"] #settings button,
+body[data-theme="winter"] #settings button {
+    color: #1a1a1a !important;
 }
 
-/* Ensure inactive theme buttons have good contrast */
+/* Active buttons keep their theme color */
+body[data-theme="spring"] #settings button.active,
+body[data-theme="summer"] #settings button.active,
+body[data-theme="winter"] #settings button.active {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+}
+
+/* Settings panel text itself */
+body[data-theme="spring"] #settings,
+body[data-theme="summer"] #settings,
+body[data-theme="winter"] #settings {
+    color: #1a1a1a !important;
+}
+
 [data-theme="spring"] .theme-btn:not(.active),
 [data-theme="summer"] .theme-btn:not(.active),
 [data-theme="winter"] .theme-btn:not(.active) {
