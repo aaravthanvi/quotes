@@ -1745,10 +1745,13 @@ function initNotificationSystem() {
     toggleNotifications();
   });
 
-  closeNotifications.addEventListener('click', (e) => {
-    e.stopPropagation();
-    notificationPanel.classList.remove('open');
-  });
+ closeNotifications.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  console.log('Close button clicked!');
+  notificationPanel.classList.remove('open');
+  return false;
+});
 
   expandNotifBtn.addEventListener('click', () => {
     if (isExpanded) {
