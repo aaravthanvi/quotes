@@ -1779,5 +1779,3 @@ initNotificationSystem();
 }
 
 initNotificationSystem();
-
-initNotificationSystem();
