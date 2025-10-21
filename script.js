@@ -1764,23 +1764,6 @@ function initNotificationSystem() {
 
 initNotificationSystem();
 
- closeNotifications.addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  console.log('Close button clicked!');
-  notificationPanel.classList.remove('open');
-  return false;
-});
-
-  expandNotifBtn.addEventListener('click', () => {
-    if (isExpanded) {
-      isExpanded = false;
-      renderNotifications(5);
-    } else {
-      isExpanded = true;
-      renderNotifications(10);
-    }
-  });
 
   document.addEventListener('click', (e) => {
     if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
