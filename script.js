@@ -1646,3 +1646,107 @@ setTheme = function(name) {
 
 // Run on load
 applySettingsContrast();
+// ====================================
+// NOTIFICATION SYSTEM
+// ====================================
+
+const ADMIN_PASSWORD = "Indra2025"; // Change this to your secret password
+
+// Notification data (you edit this manually)
+const notifications = [
+  { id: 1, text: "Welcome to Quote Galaxy! 🌟 Explore 1800+ curated quotes.", date: "2025-10-21", unread: true },
+  { id: 2, text: "New feature: Google Analytics added for better insights.", date: "2025-10-21", unread: true },
+  { id: 3, text: "CEO quotes added: Sam Altman, Elon Musk, Steve Jobs & more!", date: "2025-10-20", unread: false },
+  { id: 4, text: "Zen backgrounds now available in Settings.", date: "2025-10-19", unread: false },
+  { id: 5, text: "Story card generator launched! Press 'I' to try it.", date: "2025-10-18", unread: false },
+  { id: 6, text: "Quote journeys now support 5 curated experiences.", date: "2025-10-17", unread: false },
+  { id: 7, text: "Multilingual support: EN, HI, ES, FR, DE, JA, ZH.", date: "2025-10-16", unread: false },
+  { id: 8, text: "Voice narration added! Press 'V' to listen.", date: "2025-10-15", unread: false },
+  { id: 9, text: "Browse by Author feature live with 50+ top thinkers.", date: "2025-10-14", unread: false },
+  { id: 10, text: "PWA Install now available on mobile and desktop.", date: "2025-10-13", unread: false }
+];
+
+const notificationBtn = document.getElementById('notification-btn');
+const notificationPanel = document.getElementById('notification-panel');
+const closeNotifications = document.getElementById('close-notifications');
+const notificationsList = document.getElementById('notifications-list');
+const notifBadge = document.getElementById('notif-badge');
+const expandNotifBtn = document.getElementById('expand-notif');
+
+let isExpanded = false;
+
+function getUnreadCount() {
+  return notifications.filter(n => n.unread).length;
+}
+
+function updateBadge() {
+  const unread = getUnreadCount();
+  if (unread > 0) {
+    notifBadge.textContent = unread;
+    notifBadge.classList.remove('hidden');
+    notifBadge.classList.add('pulse');
+  } else {
+    notifBadge.classList.add('hidden');
+    notifBadge.classList.remove('pulse');
+  }
+}
+
+function renderNotifications(limit = 5) {
+  const toShow = notifications.slice(0, limit);
+  notificationsList.innerHTML = toShow.map(notif => `
+    <div class="notif-item ${notif.unread ? 'unread' : ''}" data-id="${notif.id}">
+      <p class="text-sm mb-1">${notif.text}</p>
+      <p class="notif-date">${notif.date}</p>
+    </div>
+  `).join('');
+
+  if (notifications.length > 5 && limit === 5) {
+    expandNotifBtn.classList.remove('hidden');
+  } else {
+    expandNotifBtn.classList.add('hidden');
+  }
+
+  // Mark as read on click
+  document.querySelectorAll('.notif-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const id = parseInt(item.getAttribute('data-id'));
+      const notif = notifications.find(n => n.id === id);
+      if (notif) {
+        notif.unread = false;
+        updateBadge();
+        renderNotifications(isExpanded ? 10 : 5);
+      }
+    });
+  });
+}
+
+function toggleNotifications() {
+  notificationPanel.classList.toggle('open');
+  if (notificationPanel.classList.contains('open')) {
+    renderNotifications(5);
+    updateBadge();
+  }
+}
+
+notificationBtn.addEventListener('click', toggleNotifications);
+closeNotifications.addEventListener('click', toggleNotifications);
+
+expandNotifBtn.addEventListener('click', () => {
+  isExpanded = true;
+  renderNotifications(10);
+  expandNotifBtn.textContent = 'Show Less';
+  expandNotifBtn.addEventListener('click', () => {
+    isExpanded = false;
+    renderNotifications(5);
+  }, { once: true });
+});
+
+// Close panel when clicking outside
+document.addEventListener('click', (e) => {
+  if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
+    notificationPanel.classList.remove('open');
+  }
+});
+
+// Initialize badge on load
+updateBadge();
