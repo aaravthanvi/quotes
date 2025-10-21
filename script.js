@@ -1721,30 +1721,48 @@ function renderNotifications(limit = 5) {
 }
 
 function initNotificationSystem() {
-  const notificationBtn = document.getElementById('notification-btn');
-  const notificationPanel = document.getElementById('notification-panel');
- 
-  const expandNotifBtn = document.getElementById('expand-notif');
-  
-  if (!notificationBtn || !notificationPanel || !expandNotifBtn) {
-
-    return;
-  }
-
-  function toggleNotifications() {
-    const isOpen = notificationPanel.classList.contains('open');
-    if (isOpen) {
-      notificationPanel.classList.remove('open');
-    } else {
-      notificationPanel.classList.add('open');
-      renderNotifications(isExpanded ? 10 : 5);
+    const notificationBtn = document.getElementById('notification-btn');
+    const notificationPanel = document.getElementById('notification-panel');
+    const expandNotifBtn = document.getElementById('expand-notif');
+    
+    if (!notificationBtn || !notificationPanel || !expandNotifBtn) return;
+    
+    function toggleNotifications() {
+        notificationPanel.classList.toggle('open');
+        if (notificationPanel.classList.contains('open')) {
+            renderNotifications(isExpanded ? 10 : 5);
+        }
     }
-  }
+    
+    notificationBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleNotifications();
+    });
+    
+    expandNotifBtn.addEventListener('click', () => {
+        if (isExpanded) {
+            isExpanded = false;
+            renderNotifications(5);
+        } else {
+            isExpanded = true;
+            renderNotifications(10);
+        }
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
+            notificationPanel.classList.remove('open');
+        }
+    });
+    
+    notificationPanel.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+    
+    updateBadge();
+}
 
-  notificationBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleNotifications();
-  });
+initNotificationSystem();
 
  closeNotifications.addEventListener('click', (e) => {
   e.preventDefault();
@@ -1776,5 +1794,7 @@ function initNotificationSystem() {
 
   updateBadge();
 }
+
+initNotificationSystem();
 
 initNotificationSystem();
