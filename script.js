@@ -1646,3 +1646,37 @@ setTheme = function(name) {
 
 // Run on load
 applySettingsContrast();
+
+// Notification System
+const notificationBtn = document.getElementById('notificationBtn');
+const notificationPopup = document.getElementById('notificationPopup');
+const closeNotification = document.getElementById('closeNotification');
+const notificationBadge = document.querySelector('.notification-badge');
+
+// Toggle notification popup
+notificationBtn.addEventListener('click', () => {
+    notificationPopup.classList.toggle('hidden');
+    // Hide badge when opened
+    if (!notificationPopup.classList.contains('hidden')) {
+        notificationBadge.style.display = 'none';
+    }
+});
+
+// Close notification popup
+closeNotification.addEventListener('click', () => {
+    notificationPopup.classList.add('hidden');
+});
+
+// Close when clicking outside
+document.addEventListener('click', (e) => {
+    if (!notificationBtn.contains(e.target) && !notificationPopup.contains(e.target)) {
+        notificationPopup.classList.add('hidden');
+    }
+});
+
+// Close on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        notificationPopup.classList.add('hidden');
+    }
+});
