@@ -1644,8 +1644,7 @@ setTheme = function(name) {
     setTimeout(applySettingsContrast, 50);
 };
 
-// Run on load
-applySettingsContrast();
+
 // ====================================
 // NOTIFICATION SYSTEM
 // ====================================
