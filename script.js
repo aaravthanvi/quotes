@@ -1647,50 +1647,44 @@ setTheme = function(name) {
 // Run on load
 applySettingsContrast();
 
-// Notification System - Wait for DOM to be fully loaded
+// NOTIFICATION SYSTEM V2
 document.addEventListener('DOMContentLoaded', function() {
-    const notificationBtn = document.getElementById('notificationBtn');
-    const notificationPopup = document.getElementById('notificationPopup');
-    const closeNotification = document.getElementById('closeNotification');
-    const notificationBadge = document.querySelector('.notification-badge');
+    const notifyBtn = document.getElementById('notifyBellBtn');
+    const notifyPopup = document.getElementById('notifyPopupBox');
+    const notifyClose = document.getElementById('notifyCloseBtn');
+    const notifyBadge = document.querySelector('.notify-badge-count');
 
-    // Check if elements exist
-    if (!notificationBtn || !notificationPopup || !closeNotification) {
-        console.error('Notification elements not found');
+    if (!notifyBtn || !notifyPopup || !notifyClose) {
+        console.error('Notification V2 elements not found');
         return;
     }
 
-    // Toggle notification popup
-    notificationBtn.addEventListener('click', (e) => {
+    notifyBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        notificationPopup.classList.toggle('hidden');
-        // Hide badge when opened
-        if (!notificationPopup.classList.contains('hidden')) {
-            if (notificationBadge) notificationBadge.style.display = 'none';
+        notifyPopup.classList.toggle('notify-hidden');
+        if (!notifyPopup.classList.contains('notify-hidden')) {
+            if (notifyBadge) notifyBadge.style.display = 'none';
         }
     });
 
-    // Close notification popup
-    closeNotification.addEventListener('click', (e) => {
+    notifyClose.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        notificationPopup.classList.add('hidden');
+        notifyPopup.classList.add('notify-hidden');
     });
 
-    // Close when clicking outside
     document.addEventListener('click', (e) => {
-        if (!notificationBtn.contains(e.target) && !notificationPopup.contains(e.target)) {
-            notificationPopup.classList.add('hidden');
+        if (!notifyBtn.contains(e.target) && !notifyPopup.contains(e.target)) {
+            notifyPopup.classList.add('notify-hidden');
         }
     });
 
-    // Close on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            notificationPopup.classList.add('hidden');
+            notifyPopup.classList.add('notify-hidden');
         }
     });
     
-    console.log('Notification system initialized');
+    console.log('Notification V2 initialized');
 });
