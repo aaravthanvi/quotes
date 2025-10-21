@@ -1723,10 +1723,11 @@ function renderNotifications(limit = 5) {
 function initNotificationSystem() {
   const notificationBtn = document.getElementById('notification-btn');
   const notificationPanel = document.getElementById('notification-panel');
-  const closeNotifications = document.getElementById('close-notifications');
+ 
   const expandNotifBtn = document.getElementById('expand-notif');
   
-  if (!notificationBtn || !notificationPanel || !closeNotifications || !expandNotifBtn) {
+  if (!notificationBtn || !notificationPanel || !expandNotifBtn) {
+
     return;
   }
 
