@@ -1646,29 +1646,23 @@ setTheme = function(name) {
 
 // Run on load
 applySettingsContrast();
+
 // ====================================
 // NOTIFICATION SYSTEM
 // ====================================
 
 const notifications = [
   { id: 1, text: "🌟 Welcome to Quote Galaxy! Explore 1800+ curated quotes from philosophers, CEOs, and thinkers.", date: "2025-10-21", unread: true },
-  { id: 2, text: "📊 New feature: Google Analytics added for better insights and analytics.", date: "2025-10-21", unread: true },
+  { id: 2, text: "📊 New feature: Google Analytics added for better insights.", date: "2025-10-21", unread: true },
   { id: 3, text: "💼 CEO quotes added: Sam Altman, Elon Musk, Steve Jobs & more!", date: "2025-10-20", unread: false },
-  { id: 4, text: "🎨 Zen backgrounds now available in Settings for calm reading.", date: "2025-10-19", unread: false },
-  { id: 5, text: "🖼️ Story card generator launched! Press 'I' to create beautiful quote cards.", date: "2025-10-18", unread: false },
-  { id: 6, text: "✨ Quote journeys now support 5 curated experiences for different moods.", date: "2025-10-17", unread: false },
-  { id: 7, text: "🌍 Multilingual support: English, Hindi, Spanish, French, German, Japanese, Chinese.", date: "2025-10-16", unread: false },
-  { id: 8, text: "🎤 Voice narration added! Press 'V' to listen to quotes read aloud.", date: "2025-10-15", unread: false },
-  { id: 9, text: "👤 Browse by Author feature live with 50+ top thinkers and leaders.", date: "2025-10-14", unread: false },
-  { id: 10, text: "📱 PWA Install now available - add to Home Screen on mobile and desktop!", date: "2025-10-13", unread: false }
+  { id: 4, text: "🎨 Zen backgrounds now available in Settings.", date: "2025-10-19", unread: false },
+  { id: 5, text: "🖼️ Story card generator launched! Press 'I' to try.", date: "2025-10-18", unread: false },
+  { id: 6, text: "✨ Quote journeys support 5 curated experiences.", date: "2025-10-17", unread: false },
+  { id: 7, text: "🌍 Multilingual support: EN, HI, ES, FR, DE, JA, ZH.", date: "2025-10-16", unread: false },
+  { id: 8, text: "🎤 Voice narration added! Press 'V' to listen.", date: "2025-10-15", unread: false },
+  { id: 9, text: "👤 Browse by Author with 50+ top thinkers.", date: "2025-10-14", unread: false },
+  { id: 10, text: "📱 PWA Install available - add to Home Screen!", date: "2025-10-13", unread: false }
 ];
-
-const notificationBtn = document.getElementById('notification-btn');
-const notificationPanel = document.getElementById('notification-panel');
-const closeNotifications = document.getElementById('close-notifications');
-const notificationsList = document.getElementById('notifications-list');
-const notifBadge = document.getElementById('notif-badge');
-const expandNotifBtn = document.getElementById('expand-notif');
 
 let isExpanded = false;
 
@@ -1677,6 +1671,9 @@ function getUnreadCount() {
 }
 
 function updateBadge() {
+  const notifBadge = document.getElementById('notif-badge');
+  if (!notifBadge) return;
+  
   const unread = getUnreadCount();
   if (unread > 0) {
     notifBadge.textContent = unread;
@@ -1687,6 +1684,11 @@ function updateBadge() {
 }
 
 function renderNotifications(limit = 5) {
+  const notificationsList = document.getElementById('notifications-list');
+  const expandNotifBtn = document.getElementById('expand-notif');
+  
+  if (!notificationsList || !expandNotifBtn) return;
+  
   const toShow = notifications.slice(0, limit);
   notificationsList.innerHTML = toShow.map(notif => `
     <div class="notif-item ${notif.unread ? 'unread' : ''}" data-id="${notif.id}">
@@ -1718,47 +1720,57 @@ function renderNotifications(limit = 5) {
   });
 }
 
-function toggleNotifications() {
-  const isOpen = notificationPanel.classList.contains('open');
-  if (isOpen) {
-    notificationPanel.classList.remove('open');
-  } else {
-    notificationPanel.classList.add('open');
-    renderNotifications(isExpanded ? 10 : 5);
+function initNotificationSystem() {
+  const notificationBtn = document.getElementById('notification-btn');
+  const notificationPanel = document.getElementById('notification-panel');
+  const closeNotifications = document.getElementById('close-notifications');
+  const expandNotifBtn = document.getElementById('expand-notif');
+  
+  if (!notificationBtn || !notificationPanel || !closeNotifications || !expandNotifBtn) {
+    return;
   }
+
+  function toggleNotifications() {
+    const isOpen = notificationPanel.classList.contains('open');
+    if (isOpen) {
+      notificationPanel.classList.remove('open');
+    } else {
+      notificationPanel.classList.add('open');
+      renderNotifications(isExpanded ? 10 : 5);
+    }
+  }
+
+  notificationBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleNotifications();
+  });
+
+  closeNotifications.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notificationPanel.classList.remove('open');
+  });
+
+  expandNotifBtn.addEventListener('click', () => {
+    if (isExpanded) {
+      isExpanded = false;
+      renderNotifications(5);
+    } else {
+      isExpanded = true;
+      renderNotifications(10);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
+      notificationPanel.classList.remove('open');
+    }
+  });
+
+  notificationPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  updateBadge();
 }
 
-notificationBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  toggleNotifications();
-});
-
-closeNotifications.addEventListener('click', (e) => {
-  e.stopPropagation();
-  notificationPanel.classList.remove('open');
-});
-
-expandNotifBtn.addEventListener('click', () => {
-  if (isExpanded) {
-    isExpanded = false;
-    renderNotifications(5);
-  } else {
-    isExpanded = true;
-    renderNotifications(10);
-  }
-});
-
-// Close when clicking outside
-document.addEventListener('click', (e) => {
-  if (!notificationPanel.contains(e.target) && !notificationBtn.contains(e.target)) {
-    notificationPanel.classList.remove('open');
-  }
-});
-
-// Prevent clicks inside panel from closing it
-notificationPanel.addEventListener('click', (e) => {
-  e.stopPropagation();
-});
-
-// Initialize
-updateBadge();
+initNotificationSystem();
