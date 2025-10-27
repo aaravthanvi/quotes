@@ -611,12 +611,13 @@
                     <p class="text-secondary">Quotes by famous writers</p>
                 </button>
                 
-                <!-- Quote Journeys -->
-                <button id="browse-journeys-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
-                    <i class="fas fa-route text-4xl mb-4 accent-color"></i>
-                    <h2 class="text-2xl font-bold mb-2">Quote Journeys</h2>
-                    <p class="text-secondary">Guided quote experiences</p>
-                </button>
+               <!-- Philosophy -->
+<button id="browse-philosophy-btn" class="group bg-secondary bg-hover border border-custom rounded-2xl p-8 text-left">
+    <i class="fas fa-brain text-4xl mb-4 accent-color"></i>
+    <h2 class="text-2xl font-bold mb-2">Philosophy</h2>
+    <p class="text-secondary">Explore philosophical wisdom</p>
+</button>
+
                 
             </div>
             
@@ -726,65 +727,37 @@
         </div>
     </section>
 
-    <!-- Journeys Section -->
-    <section id="journeys" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
-        <div class="max-w-4xl w-full">
+  <!-- Philosophy Section -->
+<section id="philosophy" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="max-w-5xl w-full">
+        
+        <!-- Back to Menu -->
+        <button id="back-to-menu-from-philosophy" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
+            <i class="fas fa-arrow-left"></i>
+            <span class="text-sm font-medium">Back to menu</span>
+        </button>
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-2">Browse by Philosophy</h2>
+            <p class="text-secondary">Explore different schools of thought</p>
+        </div>
+        
+        <!-- Philosophy Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             
-            <!-- Back to Menu -->
-            <button id="back-to-menu-from-journeys" class="inline-flex items-center gap-2 text-secondary hover:text-primary mb-8">
-                <i class="fas fa-arrow-left"></i>
-                <span class="text-sm font-medium">Back to menu</span>
+            <!-- Stoicism -->
+            <button class="philosophy-btn category-badge group bg-secondary bg-hover border border-custom rounded-xl p-4" data-philosophy="stoicism" tabindex="25" role="listitem">
+                <i class="fas fa-mountain text-2xl mb-2 accent-color"></i>
+                <p class="text-sm font-medium">Stoicism</p>
             </button>
             
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-2">Quote Journeys</h2>
-                <p class="text-secondary">Curated paths of wisdom</p>
-            </div>
-
-            <!-- Journeys Grid -->
-            <div class="grid md:grid-cols-2 gap-4">
-                
-                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="morning">
-                    <div class="flex items-start justify-between mb-3">
-                        <i class="fas fa-sun text-3xl accent-color"></i>
-                        <span class="text-sm text-secondary">5 quotes</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Morning Focus</h3>
-                    <p class="text-sm text-secondary">Start your day with clarity and purpose</p>
-                </button>
-                
-                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="night">
-                    <div class="flex items-start justify-between mb-3">
-                        <i class="fas fa-moon text-3xl accent-color"></i>
-                        <span class="text-sm text-secondary">5 quotes</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Evening Peace</h3>
-                    <p class="text-sm text-secondary">Wind down with calm and reflection</p>
-                </button>
-                
-                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="overcome">
-                    <div class="flex items-start justify-between mb-3">
-                        <i class="fas fa-mountain text-3xl accent-color"></i>
-                        <span class="text-sm text-secondary">5 quotes</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Overcoming Challenges</h3>
-                    <p class="text-sm text-secondary">Find strength in difficult moments</p>
-                </button>
-                
-                <button class="journey-card bg-secondary bg-hover border border-custom rounded-xl p-6 text-left" data-journey="gratitude">
-                    <div class="flex items-start justify-between mb-3">
-                        <i class="fas fa-heart text-3xl accent-color"></i>
-                        <span class="text-sm text-secondary">5 quotes</span>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Gratitude Flow</h3>
-                    <p class="text-sm text-secondary">Appreciate life's simple blessings</p>
-                </button>
-                
-            </div>
+            <!-- More philosophy categories can be added here -->
             
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Quote Display Section -->
     <section id="quote-section" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
@@ -823,28 +796,30 @@
                         </span>
                     </p>
                     
-                    <!-- Action Buttons -->
-                    <div class="flex flex-wrap gap-3">
-                        <button id="new-quote-btn" tabindex="26" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
-                            <i class="fas fa-rotate-right mr-2"></i>
-                            <span data-i18n="new-quote">Next</span>
-                        </button>
-                        <button id="voice-btn" tabindex="27" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Read aloud (V)">
-                            <i class="fas fa-volume-high mr-2"></i>
-                            <span data-i18n="voice">Listen</span>
-                        </button>
-                        <button id="story-card-btn" tabindex="28" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Create story card (I)">
-                            <i class="fas fa-image mr-2"></i>
-                            <span>Story</span>
-                        </button>
-                        <button id="share-btn" tabindex="29" class="flex-1 min-w-[120px] accent-bg accent-bg:hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
-                            <i class="fas fa-share-nodes mr-2"></i>
-                            <span data-i18n="share">Share</span>
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap gap-3">
+    <button id="prev-quote-btn" tabindex="26" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
+        <i class="fas fa-arrow-left mr-2"></i>
+        <span data-i18n="prev-quote">Previous</span>
+    </button>
+    <button id="new-quote-btn" tabindex="27" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
+        <i class="fas fa-rotate-right mr-2"></i>
+        <span data-i18n="new-quote">Next</span>
+    </button>
+    <button id="voice-btn" tabindex="28" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Read aloud (V)">
+        <i class="fas fa-volume-high mr-2"></i>
+        <span data-i18n="voice">Listen</span>
+    </button>
+    <button id="story-card-btn" tabindex="29" class="flex-1 min-w-[120px] bg-secondary bg-hover border border-custom rounded-lg px-4 py-3 font-medium text-sm" title="Create story card (I)">
+        <i class="fas fa-image mr-2"></i>
+        <span>Story</span>
+    </button>
+    <button id="share-btn" tabindex="30" class="flex-1 min-w-[120px] accent-bg accent-bg:hover border border-custom rounded-lg px-4 py-3 font-medium text-sm">
+        <i class="fas fa-share-nodes mr-2"></i>
+        <span data-i18n="share">Share</span>
+    </button>
+</div>
+
 
             <!-- Status Message -->
             <div class="flex justify-center mt-6">
@@ -904,7 +879,7 @@
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
-        <span id="bellBadge" style="position:absolute;top:3px;right:3px;background:linear-gradient(135deg,#ff00ea,#cc00bb);color:white;font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white;">2</span>
+        <span id="bellBadge" style="position:absolute;top:3px;right:3px;background:linear-gradient(135deg,#ff00ea,#cc00bb);color:white;font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white;">4</span>
     </div>
 
     <!-- Notification Popup -->
@@ -914,23 +889,37 @@
             <button id="bellClose" style="background:rgba(255,255,255,0.1);border:1px solid rgba(0,212,255,0.3);color:#00d4ff;font-size:20px;cursor:pointer;padding:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all 0.3s;">✕</button>
         </div>
         <div style="padding:15px;max-height:400px;overflow-y:auto;">
-            <div style="display:flex;gap:12px;padding:15px;margin-bottom:10px;background:rgba(0,212,255,0.08);border-radius:10px;border-left:3px solid #00d4ff;transition:all 0.3s;">
-                <div style="font-size:28px;">🎉</div>
-                <div style="flex:1;">
-                    <strong style="color:#00d4ff;font-size:14px;display:block;margin-bottom:5px;">Notifications Are Here!</strong>
-                    <p style="color:#e4e4e4;font-size:12px;margin:0 0 5px 0;line-height:1.5;">You'll now receive updates about new features and improvements.</p>
-                    <span style="color:#00d4ff;font-size:10px;text-transform:uppercase;opacity:0.8;">Just now</span>
-                </div>
-            </div>
+           
+            <!-- Bell Button Fix -->
+<div style="display:flex;gap:12px;padding:15px;margin-bottom:10px;background:rgba(0,212,255,0.08);border-radius:10px;border-left:3px solid #00d4ff;transition:all 0.3s">
+    <div style="font-size:28px">🔧</div>
+    <div style="flex:1">
+        <strong style="color:#00d4ff;font-size:14px;display:block;margin-bottom:5px">Bell Button Fixed!</strong>
+        <p style="color:#e4e4e4;font-size:12px;margin:0 0 5px 0;line-height:1.5">The bell button now appears only on the homepage and disappears when you navigate to other sections.</p>
+        <span style="color:#00d4ff;font-size:10px;text-transform:uppercase;opacity:0.8">Oct 22, 2025</span>
+    </div>
+</div>
+
+<!-- Philosophy Section Added -->
+<div style="display:flex;gap:12px;padding:15px;margin-bottom:10px;background:rgba(255,0,234,0.08);border-radius:10px;border-left:3px solid #ff00ea;transition:all 0.3s">
+    <div style="font-size:28px">🧠</div>
+    <div style="flex:1">
+        <strong style="color:#ff00ea;font-size:14px;display:block;margin-bottom:5px">New: Philosophy Section!</strong>
+        <p style="color:#e4e4e4;font-size:12px;margin:0 0 5px 0;line-height:1.5">Explore Stoicism and discover quotes about virtue, discipline, and wisdom. More philosophies coming soon!</p>
+        <span style="color:#ff00ea;font-size:10px;text-transform:uppercase;opacity:0.8">Oct 22, 2025</span>
+    </div>
+</div>
+
             
-            <div style="display:flex;gap:12px;padding:15px;margin-bottom:10px;background:rgba(255,0,234,0.08);border-radius:10px;border-left:3px solid #ff00ea;transition:all 0.3s;">
-                <div style="font-size:28px;">🚀</div>
-                <div style="flex:1;">
-                    <strong style="color:#ff00ea;font-size:14px;display:block;margin-bottom:5px;">Stay Updated!</strong>
-                    <p style="color:#e4e4e4;font-size:12px;margin:0 0 5px 0;line-height:1.5;">Get notified about new quote categories, themes, and features.</p>
-                    <span style="color:#ff00ea;font-size:10px;text-transform:uppercase;opacity:0.8;">Just now</span>
-                </div>
-            </div>
+        <div style="display:flex;gap:12px;padding:15px;margin-bottom:10px;background:rgba(0,212,255,0.08);border-radius:10px;border-left:3px solid #00d4ff;transition:all 0.3s">
+    <div style="font-size:28px;">⏮️</div>
+    <div style="flex:1">
+        <strong style="color:#00d4ff;font-size:14px;display:block;margin-bottom:5px;">Previous Button Added!</strong>
+        <p style="color:#e4e4e4;font-size:12px;margin:0 0 5px 0;line-height:1.5;">Navigate through your quote history with the new Previous button. Press 'P' or click the button to go back!</p>
+        <span style="color:#00d4ff;font-size:10px;text-transform:uppercase;opacity:0.8;">Oct 27, 2025</span>
+    </div>
+</div>
+
             
             <div style="margin-top:10px;padding:15px;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(255,0,234,0.05));border-radius:10px;border:1px solid rgba(0,212,255,0.2);">
                 <p style="color:#f0f0f0;margin:0 0 10px 0;font-size:14px;font-weight:600;">Contact Me</p>
